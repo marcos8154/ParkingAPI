@@ -9,8 +9,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Dominio\" />
-    <Folder Include="Comandos\" />
     <Folder Include="Repositorio\" />
   </ItemGroup>
 
