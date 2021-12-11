@@ -43,6 +43,9 @@ namespace ParkingAPI.Dominio
         {
             Id = Guid.NewGuid();
 
+            if (string.IsNullOrEmpty(nome))
+                throw new Exception("O nome é obrigátório");
+
             Nome = nome;
             Apelido = apelido;
             Tipo = tipo;
