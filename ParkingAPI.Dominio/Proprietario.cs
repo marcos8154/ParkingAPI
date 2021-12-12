@@ -27,7 +27,6 @@ namespace ParkingAPI.Dominio
         public string Telefone { get; private set; } 
         public string Celular { get; private set; }
         public int Vagas { get; private set; }
-        public int VagasSendoUsadas { get; private set; }
         public virtual List<Placa> Placas { get; private set; }
         public virtual List<Estadia> EstadiasMensalidadeAbertas { get; private set; }
 

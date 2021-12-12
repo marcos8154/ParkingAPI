@@ -31,7 +31,7 @@ namespace ParkingAPI.Dominio
                 Mensalista = false;
             } else {
                 //o mensalista pode pagar por 2 vagas mas ter 4 placas cadastradas para usar a vaga, por exemplo, tem prioridade a placa que tiver marcada como padrão
-                if(placa.Proprietario.Vagas>placa.Proprietario.VagasSendoUsadas) {
+                if(placa.Proprietario.Vagas>Placa.Proprietario.EstadiasMensalidadeAbertas.Count) {
                     //tem vaga disponível, abre estadia mensalista
                     Mensalista = true;
                 } else if(placa.Padrao) {
