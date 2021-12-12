@@ -35,8 +35,8 @@ namespace ParkingAPI.Dominio
                     //tem vaga disponível, abre estadia mensalista
                     Mensalista = true;
                 } else if(placa.Padrao) {
-                    //a ideia aqui é pegar uma placa comum desse proprirtário com estadia aberta, não sei se assim vai rolar, na verdade nem sei se é aqui que faz essa verificação rs
-                    Estadia estadiaplacacomum = Placa.Proprietario.EstadiasAbertas.Find(p => !p.Placa.Padrao);
+                    //a ideia aqui é pegar uma placa comum desse proprirtário com estadia de mensalista aberta, não sei se assim vai rolar, na verdade nem sei se é aqui que faz essa verificação rs
+                    Estadia estadiaplacacomum = Placa.Proprietario.EstadiasMensalidadeAbertas.Find(p => !p.Placa.Padrao);
                     if(estadiaplacacomum.Id!=null) {
                         //abre estadia mensalista
                         Mensalista = true;

@@ -29,7 +29,7 @@ namespace ParkingAPI.Dominio
         public int Vagas { get; private set; }
         public int VagasSendoUsadas { get; private set; }
         public virtual List<Placa> Placas { get; private set; }
-        public virtual List<Estadia> EstadiasAbertas { get; private set; }
+        public virtual List<Estadia> EstadiasMensalidadeAbertas { get; private set; }
 
 
         private Proprietario()
