@@ -16,14 +16,20 @@ namespace ParkingAPI.Dominio
         public TipoProprietario Tipo { get; private set; }
         public string CpfCnpj { get; private set; }
         public string Rg { get; private set; }
+        public string Cep { get; private set; }
         public int Numero { get; private set; }
         public string Complemento { get; private set; }
+        public string Logradouro { get; private set; }
         public string Bairro { get; private set; }
         public string Municipio { get; private set; }
         public string UF { get; private set; }
         public string Email { get; private set; }
-        public string Telefone { get; private set; }
+        public string Telefone { get; private set; } 
+        public string Celular { get; private set; }
+        public int Vagas { get; private set; }
+        public int VagasSendoUsadas { get; private set; }
         public virtual List<Placa> Placas { get; private set; }
+        public virtual List<Estadia> EstadiasAbertas { get; private set; }
 
 
         private Proprietario()
@@ -39,6 +45,8 @@ namespace ParkingAPI.Dominio
             string rg, 
             string email, 
             string telefone,
+            string celular,
+            int vagas,
             EnderecoDTO endereco)
         {
             Id = Guid.NewGuid();
@@ -51,21 +59,26 @@ namespace ParkingAPI.Dominio
             Tipo = tipo;
             CpfCnpj = cpfCnpj;
             Rg = rg;
+            Vagas = vagas;
 
-            AtualizaInfoContato(email, telefone);
+            AtualizaInfoContato(email, telefone, celular);
             AtualizaEndereco(endereco);
 
             Placas = new List<Placa>();
         }
 
-        private void AtualizaInfoContato(string email, string telefone)
+        private void AtualizaInfoContato(string email, string telefone, string celular)
         {
             Email = email;
             Telefone = telefone;
+            Celular = celular;
         }
 
         private void AtualizaEndereco(EnderecoDTO endereco)
         {
+            
+            Cep = endereco.Cep;
+            Logradouro = endereco.Logradouro;
             Numero = endereco.Numero;
             Complemento = endereco.Complemento;
             Bairro = endereco.Bairro;

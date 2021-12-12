@@ -24,10 +24,5 @@ namespace ParkingAPI.Dominio
             Valor = valor;
             Descricao = descricao;
         }
-
-        public Cobranca()
-        {
-
-        }
     }
 }

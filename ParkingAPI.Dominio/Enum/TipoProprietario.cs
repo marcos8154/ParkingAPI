@@ -2,7 +2,7 @@
 {
     public enum TipoProprietario
     {
-        Mensalista = 1,
-        Convenio = 2
+        PessoaFisica = 1,
+        PessoaJuridica = 2
     }
 }

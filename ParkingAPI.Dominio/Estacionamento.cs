@@ -15,18 +15,15 @@ namespace ParkingAPI.Dominio
         public decimal ValorEstadia { get; private set; }
         public virtual List<Estadia> Estadias { get; private set; }
 
-        public Estacionamento(string nome, string cNPJ)
+        public Estacionamento(string nome, string cNPJ, int tempoestadia, decimal valorestadia)
         {
             Id = Guid.NewGuid();
             Nome = nome;
             CNPJ = cNPJ;
+            TempoEstadia = tempoestadia;
+            ValorEstadia = valorestadia;
 
             Estadias = new List<Estadia>();
-        }
-
-        public Estacionamento()
-        {
-
         }
 
         internal decimal CalculaValorEstadia(Estadia estadia)

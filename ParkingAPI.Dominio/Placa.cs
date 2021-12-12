@@ -10,16 +10,13 @@ namespace ParkingAPI.Dominio
     {
         public string Id { get; private set; }
         public string Descricao { get; private set; }
+        public Boolean Padrao { get; private set; }
 
-        public Placa(string placa, string descricao)
+        public Placa(string placa, string descricao, Boolean padrao)
         {
             Id = placa;
             Descricao = descricao;
-        }
-
-        public Placa()
-        {
-
+            Padrao = padrao;
         }
 
         public void DefineProprietario(Proprietario proprietario)
