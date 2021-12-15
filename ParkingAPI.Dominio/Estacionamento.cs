@@ -18,6 +18,9 @@ namespace ParkingAPI.Dominio
         public Estacionamento(string nome, string cNPJ, int tempoestadia, decimal valorestadia)
         {
             Id = Guid.NewGuid();
+            if (string.IsNullOrEmpty(nome))
+                throw new Exception("O nome é obrigátório");
+
             Nome = nome;
             CNPJ = cNPJ;
             TempoEstadia = tempoestadia;

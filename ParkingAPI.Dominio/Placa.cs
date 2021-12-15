@@ -8,13 +8,17 @@ namespace ParkingAPI.Dominio
 {
     public class Placa
     {
-        public string Id { get; private set; }
+        public Guid Id { get; private set; }
         public string Descricao { get; private set; }
         public Boolean Padrao { get; private set; }
 
-        public Placa(string placa, string descricao, Boolean padrao)
+        public Placa(string descricao, Boolean padrao)
         {
-            Id = placa;
+            Id = Guid.NewGuid();
+
+            if (string.IsNullOrEmpty(descricao))
+                throw new Exception("A descrição é obrigátória");
+
             Descricao = descricao;
             Padrao = padrao;
         }

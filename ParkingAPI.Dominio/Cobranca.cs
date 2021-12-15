@@ -10,7 +10,6 @@ namespace ParkingAPI.Dominio
     {
         public Guid Id { get; private set; }
         public DateTime DataHora { get; private set; }
-        public string PlacaId { get; private set; }
         public decimal Valor { get; private set; }
         public string Descricao { get; private set; }
         public virtual Placa Placa { get; private set; }
@@ -20,7 +19,6 @@ namespace ParkingAPI.Dominio
             Id = Guid.NewGuid();
 
             DataHora = DateTime.Now;
-            PlacaId = placa.Id;
             Valor = valor;
             Descricao = descricao;
         }

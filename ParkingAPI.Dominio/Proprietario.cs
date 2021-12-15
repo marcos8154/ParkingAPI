@@ -28,13 +28,7 @@ namespace ParkingAPI.Dominio
         public string Celular { get; private set; }
         public int Vagas { get; private set; }
         public virtual List<Placa> Placas { get; private set; }
-        public virtual List<Estadia> EstadiasMensalidadeAbertas { get; private set; }
-
-
-        private Proprietario()
-        {
-            Placas = new List<Placa>();
-        }
+        public virtual List<Estadia> EstadiasMensalistaAberta { get; private set; }
 
         public Proprietario(
             TipoProprietario tipo,
@@ -53,6 +47,18 @@ namespace ParkingAPI.Dominio
             if (string.IsNullOrEmpty(nome))
                 throw new Exception("O nome é obrigátório");
 
+            if (string.IsNullOrEmpty(apelido))
+                throw new Exception("O apelido é obrigátório");
+
+            if (string.IsNullOrEmpty(cpfCnpj))
+                throw new Exception("O CPF / CNPJ é obrigátório");
+
+            if(tipo==TipoProprietario.PessoaFisica && cpfCnpj.Length!=11) {
+                throw new Exception("Para o tipo pessoa física, informe o CPF");
+            } else if(tipo==TipoProprietario.PessoaJuridica && cpfCnpj.Length!=14) {
+                throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
+            }
+
             Nome = nome;
             Apelido = apelido;
             Tipo = tipo;
@@ -64,6 +70,7 @@ namespace ParkingAPI.Dominio
             AtualizaEndereco(endereco);
 
             Placas = new List<Placa>();
+            EstadiasMensalistaAberta = new List<Estadia>();
         }
 
         private void AtualizaInfoContato(string email, string telefone, string celular)

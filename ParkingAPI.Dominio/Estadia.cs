@@ -23,7 +23,8 @@ namespace ParkingAPI.Dominio
             Id = Guid.NewGuid();
 
             EstacionamentoId = estacionamento.Id;
-            PlacaId = placa.Id;
+            PlacaId = placa.Descricao;
+            Placa = placa;
             DataEntrada = DateTime.Now;
 
             //se placa não é de mensalista
@@ -31,17 +32,17 @@ namespace ParkingAPI.Dominio
                 Mensalista = false;
             } else {
                 //o mensalista pode pagar por 2 vagas mas ter 4 placas cadastradas para usar a vaga, por exemplo, tem prioridade a placa que tiver marcada como padrão
-                if(placa.Proprietario.Vagas>Placa.Proprietario.EstadiasMensalidadeAbertas.Count) {
+                if(placa.Proprietario.Vagas>Placa.Proprietario.EstadiasMensalistaAberta.Count) {
                     //tem vaga disponível, abre estadia mensalista
                     Mensalista = true;
                 } else if(placa.Padrao) {
-                    //a ideia aqui é pegar uma placa comum desse proprirtário com estadia de mensalista aberta, não sei se assim vai rolar, na verdade nem sei se é aqui que faz essa verificação rs
-                    Estadia estadiaplacacomum = Placa.Proprietario.EstadiasMensalidadeAbertas.Find(p => !p.Placa.Padrao);
+                    //pega uma placa comum desse proprietário com estadia de mensalista aberta
+                    Estadia estadiaplacacomum = Placa.Proprietario.EstadiasMensalistaAberta.Find(p => !p.Placa.Padrao);
                     if(estadiaplacacomum.Id!=null) {
                         //abre estadia mensalista
                         Mensalista = true;
 
-                        //fecha estadia de placa adicional e abre uma com cobrança comum (adicionar isso nas observações) 
+                        //fecha estadia de placa adicional e abre uma com cobrança comum 
                         estadiaplacacomum.Observacao = "Estadia fechada automaticamente para dar vaga para '"+placa.Descricao+"'";
                         estadiaplacacomum.Saida();
                         Estadia novaEstadia = new Estadia(estadiaplacacomum.Estacionamento, estadiaplacacomum.Placa);
@@ -55,6 +56,10 @@ namespace ParkingAPI.Dominio
                     Mensalista = false;
                 }
             }  
+
+            if(Mensalista) {
+                placa.Proprietario.EstadiasMensalistaAberta.Add(this);
+            }
         }
 
         public double TotalMinutos()
@@ -75,7 +80,7 @@ namespace ParkingAPI.Dominio
             if(Mensalista) {
                 //se estadia for de mensalista, gera cobrança com valor zerado
                 cobrancaEstacionamento = new Cobranca(Placa, 0, $"Estadia de '{PlacaId}' (mensalista) por {TotalMinutos()} minutos");
-                
+                Placa.Proprietario.EstadiasMensalistaAberta.Remove(this);
             } else {
                 decimal valor = Estacionamento.CalculaValorEstadia(this);
                 cobrancaEstacionamento = new Cobranca(Placa, valor, $"Estadia de '{PlacaId}' por {TotalMinutos()} minutos");
