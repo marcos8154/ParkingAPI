@@ -12,4 +12,8 @@
     <Folder Include="Repositorio\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\ParkingAPI.Commands\ParkingAPI.Commands.csproj" />
+  </ItemGroup>
+
 </Project>

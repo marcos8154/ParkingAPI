@@ -9,5 +9,6 @@ namespace ParkingAPI.Storage
 {
     public interface IEstacionamentoRepository : IRepository<Estacionamento>
     {
+        Estacionamento ObterPorCnpj(string cnpj);
     }
 }

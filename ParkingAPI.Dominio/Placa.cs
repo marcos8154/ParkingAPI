@@ -8,28 +8,58 @@ namespace ParkingAPI.Dominio
 {
     public class Placa
     {
-        public Guid Id { get; private set; }
-        public string Descricao { get; private set; }
-        public Boolean Padrao { get; private set; }
+        /// <summary>
+        /// A propria placa em si
+        /// ex: 
+        /// APT-5800 (antiga)
+        /// AE0045G704 (mercosul)
+        /// </summary>
+        public string Id { get; private set; }
+        public string DescricaoVeiculo { get; private set; }
 
-        public Placa(string descricao, Boolean padrao)
+        /// <summary>
+        /// Aka. Placa "Padrão" <br/>
+        /// Se verdadeiro, quando esta placa der entrada <br/>
+        /// no estacionamento, verificar se há outras vagas <br/>
+        /// ocupadas que NÃO SEJAM Prioritárias, e inseriro ESTA PLACA <br/>
+        /// no lugar da outra <br/>
+        /// 
+        /// <br/>
+        /// A placa substituida deverá passar para o rotativo
+        /// </summary>
+        public Boolean PlacaPrioritaria { get; private set; }
+
+        public Guid? ProprietarioId { get; private set; }
+        public virtual Proprietario Proprietario { get; private set; }
+
+        public bool IsPlacaRotativa()
         {
-            Id = Guid.NewGuid();
-
-            if (string.IsNullOrEmpty(descricao))
-                throw new Exception("A descrição é obrigátória");
-
-            Descricao = descricao;
-            Padrao = padrao;
+            return ProprietarioId == null;
         }
 
+
+        public Placa(string descricaoVeiculo, bool padrao = false)
+        {
+            if (string.IsNullOrEmpty(descricaoVeiculo))
+                throw new Exception("A descrição do veículo é obrigátória");
+
+            DescricaoVeiculo = descricaoVeiculo;
+            PlacaPrioritaria = padrao;
+        }
+
+        /// <summary>
+        /// A placa é cadastrada inicialmente <br/>
+        /// sem proprietario. <br/>
+        /// 
+        /// A principio é uma placa do "Rotativo", <br/>
+        /// e posteriormente ao cadastrar o "Cliente" (Proprietario.cs)<br/>
+        /// e vincular a placa ao proprietario
+        /// </summary>
+        /// <param name="proprietario"></param>
         public void DefineProprietario(Proprietario proprietario)
         {
             if (proprietario == null) ProprietarioId = null;
             else ProprietarioId = proprietario.Id;
         }
-
-        public Guid? ProprietarioId { get; private set; }
-        public virtual Proprietario Proprietario { get; private set; }
     }
 }
