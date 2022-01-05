@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Storage
 {
-    public interface IPlacaRepository : IRepository<Placa>
+    public interface IProprietarioRepository : IRepository<Proprietario>
     {
         
     }
