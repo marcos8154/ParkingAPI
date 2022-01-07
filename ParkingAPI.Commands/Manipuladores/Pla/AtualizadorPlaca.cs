@@ -33,8 +33,8 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                     padrao: cmd.padrao
                 );
 
-                if(cmd.idProprietario != null) {
-                    Proprietario pro = propRepos.Find(id: cmd.idProprietario);
+                if(cmd.cpfCnpjProprietario != null) {
+                    Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.cpfCnpjProprietario);
                     if(pro == null)
                         throw new Exception("Proprietário não encontrado");
 

@@ -7,16 +7,13 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Commands.Acoes.Pla
 {
-    public class AtualizarPlaca : IComandoAPI
+    public class ExcluirPlaca : IComandoAPI
     {
         public string placa { get; set; }
-        public string descricaoVeiculo { get; set; }
-        public Boolean padrao { get; private set; }
-        public string cpfCnpjProprietario { get; set; }
 
         public  async Task<IResultadoAcao> Executar()
         {
-            return await new AtualizadorPlaca().Manipular(this);
+            return await new ExcluidorPlaca().Manipular(this);
         }
 
         public void Valida()

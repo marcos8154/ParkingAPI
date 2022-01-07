@@ -10,5 +10,8 @@ namespace ParkingAPI.Storage
     public interface IEstadiaRepository : IRepository<Estadia>
     {
         Estadia ObterEstadiaAbertaPorPlaca(string placa);
+        IReadOnlyCollection<Estadia> ObterEstadiaPorPlaca(string placa);
+        IReadOnlyCollection<Estadia> ObterEstadiaAberta();
+        IReadOnlyCollection<Estadia> ObterEstadiaPorEstacionamento(string cnpj_estacionamento);
     }
 }

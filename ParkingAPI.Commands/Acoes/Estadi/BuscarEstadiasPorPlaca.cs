@@ -1,22 +1,19 @@
-﻿using ParkingAPI.Commands.Manipuladores.Pla;
+﻿using ParkingAPI.Commands.Manipuladores.Estadi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ParkingAPI.Commands.Acoes.Pla
+namespace ParkingAPI.Commands.Acoes.Estadi
 {
-    public class AtualizarPlaca : IComandoAPI
+    public class BuscarEstadiasPorPlaca : IComandoAPI
     {
         public string placa { get; set; }
-        public string descricaoVeiculo { get; set; }
-        public Boolean padrao { get; private set; }
-        public string cpfCnpjProprietario { get; set; }
 
         public  async Task<IResultadoAcao> Executar()
         {
-            return await new AtualizadorPlaca().Manipular(this);
+            return await new BuscadorEstadiasPorPlaca().Manipular(this);
         }
 
         public void Valida()

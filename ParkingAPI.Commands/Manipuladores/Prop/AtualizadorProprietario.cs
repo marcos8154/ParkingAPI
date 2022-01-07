@@ -25,7 +25,7 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
             {
                 cmd.Valida();
 
-                Proprietario pro = propRepos.Find(id: cmd.Id);
+                Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpj);
 
                 EnderecoDTO endereco = new EnderecoDTO(
                     cep: cmd.Cep,

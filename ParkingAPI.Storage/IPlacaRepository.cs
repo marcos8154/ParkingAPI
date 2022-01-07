@@ -9,6 +9,6 @@ namespace ParkingAPI.Storage
 {
     public interface IPlacaRepository : IRepository<Placa>
     {
-        
+        IReadOnlyCollection<Placa> ObterPorProprietario(string cpfCnpj);
     }
 }

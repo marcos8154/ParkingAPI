@@ -10,7 +10,7 @@ namespace ParkingAPI.Commands.Acoes.Prop
 {
     public class CriarPlacaProprietario : IComandoAPI
     {
-        public string idProprietario { get; set; }
+        public string CpfCnpj { get; set; }
         public string placa { get; set; }
         public string descricaoVeiculo { get; set; }
         public Boolean padrao { get; private set; }
@@ -22,8 +22,8 @@ namespace ParkingAPI.Commands.Acoes.Prop
 
         public void Valida()
         {
-            if (string.IsNullOrEmpty(idProprietario))
-                throw new Exception("Para incluir placa de proprietário, é obrigatório informar o Id do Proprietário");
+            if (string.IsNullOrEmpty(CpfCnpj))
+                throw new Exception("Para incluir placa de proprietário, é obrigatório informar o Cpf / Cnpj do Proprietário");
 
             if (string.IsNullOrEmpty(placa))
                 throw new Exception("A placa do veículo é obrigátória");

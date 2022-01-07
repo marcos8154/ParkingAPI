@@ -11,17 +11,15 @@ using ParkingAPI.Dominio.DTO;
 
 namespace ParkingAPI.Commands.Manipuladores.Prop
 {
-    internal sealed class CriadorPlacaProprietario : ManipuladorComando<CriarPlacaProprietario>
+    internal sealed class ExcluidorProprietario : ManipuladorComando<ExcluirProprietario>
     {
         private readonly IProprietarioRepository propRepos;
-        private readonly IPlacaRepository placaRepos;
-        public CriadorPlacaProprietario()
+        public ExcluidorProprietario()
         {
             propRepos = IoC.Resolve<IProprietarioRepository>();
-            placaRepos = IoC.Resolve<IPlacaRepository>();
         }
 
-        protected override ResultadoAcao ManipulaComando(CriarPlacaProprietario cmd)
+        protected override ResultadoAcao ManipulaComando(ExcluirProprietario cmd)
         {
             try
             {
@@ -32,17 +30,8 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 if(pro == null)
                     throw new Exception("Proprietário não encontrado");
 
-                Placa pla = new Placa(
-                    id: cmd.placa, 
-                    descricaoVeiculo: cmd.descricaoVeiculo, 
-                    padrao: cmd.padrao
-                );
-
-                pla.DefineProprietario(pro);
-
-                placaRepos.Add(pla);
-
-                return new ResultadoAcao("Placa adicionada ao Proprietário");
+                propRepos.Remove(pro);
+                return new ResultadoAcao("Proprietário excluido");
             }
             catch (Exception ex)
             {
