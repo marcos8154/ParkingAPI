@@ -43,6 +43,12 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
+        [HttpPost("buscar por tipo e pesquisa")]
+        public async Task<IResultadoAcao> BuscarProprietarioPorTipo(BuscarProprietarioPorTipo cmd)
+        {
+            return await cmd.Executar();
+        }
+
         [HttpPost("excluir")]
         public async Task<IResultadoAcao> ExcluirProprietario(ExcluirProprietario cmd)
         {

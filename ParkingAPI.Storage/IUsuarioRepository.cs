@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Storage
 {
-    public interface IProprietarioRepository : IRepository<Proprietario>
+    public interface IUsuarioRepository : IRepository<Usuario>
     {
-        Proprietario ObterPorCpfCnpj(string cpfCnpj);
-        Proprietario ObterPorTipo(int tipo, string pesquisa);
+        Usuario Login(string login, string senha);
+        Usuario ObterLogin(string login);
     }
 }
