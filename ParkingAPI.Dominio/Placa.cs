@@ -38,11 +38,21 @@ namespace ParkingAPI.Dominio
         }
 
 
-        public Placa(string descricaoVeiculo, bool padrao = false)
+        public Placa(string id, string descricaoVeiculo = "", bool padrao = false)
         {
-            if (string.IsNullOrEmpty(descricaoVeiculo))
-                throw new Exception("A descrição do veículo é obrigátória");
+            if (string.IsNullOrEmpty(Id))
+                throw new Exception("A placa do veículo é obrigátória");
 
+
+            AtualizaInfo(id, descricaoVeiculo, padrao);
+        }
+
+        public void AtualizaInfo(string id, string descricaoVeiculo, bool padrao)
+        {
+            if (string.IsNullOrEmpty(Id))
+                throw new Exception("A placa do veículo é obrigátória");
+
+            Id = id;
             DescricaoVeiculo = descricaoVeiculo;
             PlacaPrioritaria = padrao;
         }

@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Storage
 {
-    public interface IPlacaRepository : IRepository<Placa>
+    public interface ICobrancaRepository : IRepository<Cobranca>
     {
-        IReadOnlyCollection<Placa> ObterPorProprietario(string cpfCnpj);
+        
     }
 }

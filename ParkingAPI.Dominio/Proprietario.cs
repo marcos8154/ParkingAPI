@@ -62,6 +62,42 @@ namespace ParkingAPI.Dominio
                 throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
             }
 
+            AtualizaInfo(tipo, nome, apelido, cpfCnpj, rg, email, telefone, celular, vagas, endereco);
+
+            Placas = new List<Placa>();
+            EstadiasMensalistaAberta = new List<Estadia>();
+        }
+
+        public void AtualizaInfo(
+            TipoProprietario tipo,
+            string nome,
+            string apelido,
+            string cpfCnpj,
+            string rg,
+            string email,
+            string telefone,
+            string celular,
+            int vagas,
+            EnderecoDTO endereco)
+        {
+            if (string.IsNullOrEmpty(nome))
+                throw new Exception("O nome é obrigátório");
+
+            if (string.IsNullOrEmpty(apelido))
+                throw new Exception("O apelido é obrigátório");
+
+            if (string.IsNullOrEmpty(cpfCnpj))
+                throw new Exception("O CPF / CNPJ é obrigátório");
+
+            if (tipo == TipoProprietario.PessoaFisica && cpfCnpj.Length != 11)
+            {
+                throw new Exception("Para o tipo pessoa física, informe o CPF");
+            }
+            else if (tipo == TipoProprietario.PessoaJuridica && cpfCnpj.Length != 14)
+            {
+                throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
+            }
+
             Nome = nome;
             Apelido = apelido;
             Tipo = tipo;
@@ -71,9 +107,6 @@ namespace ParkingAPI.Dominio
 
             AtualizaInfoContato(email, telefone, celular);
             AtualizaEndereco(endereco);
-
-            Placas = new List<Placa>();
-            EstadiasMensalistaAberta = new List<Estadia>();
         }
 
         internal Estadia ObterEstadiaPlacaComum()
