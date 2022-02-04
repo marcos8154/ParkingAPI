@@ -27,7 +27,7 @@ namespace ParkingAPI.Dominio
         /// <br/>
         /// A placa substituida deverá passar para o rotativo
         /// </summary>
-        public Boolean PlacaPrioritaria { get; private set; }
+        public bool PlacaPrioritaria { get; private set; }
 
         public Guid? ProprietarioId { get; private set; }
         public virtual Proprietario Proprietario { get; private set; }
@@ -38,23 +38,28 @@ namespace ParkingAPI.Dominio
         }
 
 
-        public Placa(string id, string descricaoVeiculo = "", bool padrao = false)
+        public Placa(string codigoPlaca, string descricaoVeiculo = "", bool padrao = false)
         {
-            if (string.IsNullOrEmpty(Id))
+            if (string.IsNullOrEmpty(codigoPlaca))
                 throw new Exception("A placa do veículo é obrigátória");
 
-
-            AtualizaInfo(id, descricaoVeiculo, padrao);
+            AtualizaInfo(codigoPlaca, descricaoVeiculo, padrao);
         }
 
-        public void AtualizaInfo(string id, string descricaoVeiculo, bool padrao)
+        private Placa()
+        {
+
+        }
+
+
+        public void AtualizaInfo(string id, string descricaoVeiculo, bool prioritaria)
         {
             if (string.IsNullOrEmpty(Id))
                 throw new Exception("A placa do veículo é obrigátória");
 
             Id = id;
             DescricaoVeiculo = descricaoVeiculo;
-            PlacaPrioritaria = padrao;
+            PlacaPrioritaria = prioritaria;
         }
 
         /// <summary>

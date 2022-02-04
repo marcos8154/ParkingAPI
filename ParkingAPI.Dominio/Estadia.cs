@@ -33,64 +33,37 @@ namespace ParkingAPI.Dominio
         /// </summary>
         public virtual Estacionamento Estacionamento { get; private set; }
 
-        public Estadia(Estacionamento estacionamento, Placa placaEntrando)
+        public Estadia(Estacionamento estacionamento, Placa placaEntrando, TipoEstadia tipo)
         {
             Id = Guid.NewGuid();
 
             EstacionamentoId = estacionamento.Id;
             PlacaId = placaEntrando.Id;
             DataEntrada = DateTime.Now;
+            Tipo = tipo;
+        }
 
-            Proprietario donoDaPlaca = placaEntrando.Proprietario;
-            if (donoDaPlaca == null) throw new Exception("Proprietário não foi informado");
+        private Estadia()
+        {
 
+        }
 
-            //se placa não é de mensalista
-            if (placaEntrando.IsPlacaRotativa())
-                Tipo = TipoEstadia.Rotativa;
-            //o mensalista pode pagar por 2 vagas mas ter 4 placas cadastradas para usar a vaga,
-            //por exemplo, tem prioridade a placa que tiver marcada como padrão
-            else if (donoDaPlaca.PossuiDisponibilidade() && placaEntrando.PlacaPrioritaria)
-            {
-
-                //pega uma placa comum desse proprietário com estadia de mensalista aberta
-                Estadia estadiaplacacomum = donoDaPlaca.ObterEstadiaPlacaComum();
-
-                if (estadiaplacacomum == null)
-                {
-                    //se todas as vagas disponíveis estão ocupadas por placas padrão, abre estadia comum
-                    Tipo = TipoEstadia.Rotativa;
-                }
-                else
-                {
-                    //abre estadia mensalista
-                    Tipo = TipoEstadia.Mensalista;
-
-                    /*
-                    //fecha estadia de placa adicional e abre uma com cobrança comum 
-                    estadiaplacacomum.Observacao = "Estadia fechada automaticamente para dar vaga para '" + placaEntrando.DescricaoVeiculo + "'";
-                    estadiaplacacomum.Saida();
-                    Estadia novaEstadia = new Estadia(estadiaplacacomum.Estacionamento, estadiaplacacomum.Placa);
-             */
-                }
-            }
-            //não é placa padrão e as vagas
-            //contratadas estão todas sendo usadas, abre estadia comum
-            else Tipo = TipoEstadia.Rotativa; 
+        public bool Encerrado()
+        {
+            return DataSaida != null;
         }
 
         public double TotalMinutos()
         {
             if (DataSaida == null) return 0;
-
             double totalMin = ((DateTime)DataSaida - DataEntrada).TotalMinutes;
             return totalMin;
         }
 
-        public Cobranca Saida()
+        public Cobranca Saida(string obs = null)
         {
-            if (Estacionamento == null)
-                return null;
+            if (Estacionamento == null) return null;
+            if (!string.IsNullOrEmpty(obs)) Observacao = obs;
 
             DataSaida = DateTime.Now;
             Cobranca cobrancaEstacionamento;
@@ -98,7 +71,6 @@ namespace ParkingAPI.Dominio
             {
                 //se estadia for de mensalista, gera cobrança com valor zerado
                 cobrancaEstacionamento = new Cobranca(Placa, 0, $"Estadia de '{PlacaId}' (mensalista) por {TotalMinutos()} minutos");
-                Placa.Proprietario.EstadiasMensalistaAberta.Remove(this);
             }
             else
             {

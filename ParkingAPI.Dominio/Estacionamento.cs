@@ -27,6 +27,11 @@ namespace ParkingAPI.Dominio
             Estadias = new List<Estadia>();
         }
 
+        private Estacionamento()
+        {
+
+        }
+
         public void AtualizaInfo(string nome, int tempoEstadia, decimal valorEstadia)
         {
             if (string.IsNullOrEmpty(nome)) throw new Exception("O nome é obrigatório");

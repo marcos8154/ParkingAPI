@@ -49,7 +49,6 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 );
 
                 propRepos.Add(pro);
-
                 return new ResultadoAcao("Proprietário adicionado");
             }
             catch (Exception ex)

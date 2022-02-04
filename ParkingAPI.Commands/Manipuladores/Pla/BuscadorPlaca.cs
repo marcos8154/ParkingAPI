@@ -24,8 +24,8 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
             {
                 cmd.Valida();
 
-                IReadOnlyCollection<Placa> pla = plaRepos.FindAll();
-                return new ResultadoAcao(pla);
+                Placa placa = plaRepos.Find(cmd.PlacaVeiculo);
+                return new ResultadoAcao(placa);
             }
             catch (Exception ex)
             {

@@ -14,38 +14,35 @@ namespace ParkingAPI.Controllers
     public class PlacaController : ControllerBase
     {
         [HttpPost("criar")]
-        public async Task<IResultadoAcao> CriarEstacionamento(CriarPlaca cmd)
+        public async Task<IResultadoAcao> CriarPlaca(CriarPlaca cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("atualizar")]
-        public async Task<IResultadoAcao> AtualizarEstacionamento(AtualizarPlaca cmd)
+        [HttpPut("atualizar")]
+        public async Task<IResultadoAcao> AtualizarPlaca(AtualizarPlaca cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar")]
-        public async Task<IResultadoAcao> BuscarEstacionamento(BuscarPlaca cmd)
+        [HttpGet("obter/{placaVeiculo}")]
+        public async Task<IResultadoAcao> BuscarPlaca(string placaVeiculo)
         {
+            IComandoAPI cmd = new BuscarPlaca(placaVeiculo);
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar por placa")]
-        public async Task<IResultadoAcao> BuscarEstacionamentoPorCnpj(BuscarPlacaPorPlaca cmd)
+        [HttpGet("placasPorProprietario/{cpfCnpjProprietario}")]
+        public async Task<IResultadoAcao> BuscarPlacaPorProprietario(string cpfCnpjProprietario)
         {
+            IComandoAPI cmd = new ListarPlacasDoProprietario(cpfCnpjProprietario);
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar por proprietario")]
-        public async Task<IResultadoAcao> BuscarPlacaPorProprietario(BuscarPlacaPorPlaca cmd)
+        [HttpDelete("excluir/{placaVeiculo}")]
+        public async Task<IResultadoAcao> ExcluirPlaca(string placaVeiculo)
         {
-            return await cmd.Executar();
-        }
-
-        [HttpPost("excluir")]
-        public async Task<IResultadoAcao> ExcluirPlaca(ExcluirPlaca cmd)
-        {
+            IComandoAPI cmd = new ExcluirPlaca(placaVeiculo);
             return await cmd.Executar();
         }
     }

@@ -25,7 +25,7 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                 cmd.Valida();
 
                 Placa pla = new Placa(
-                    id: cmd.placa, 
+                    codigoPlaca: cmd.placa, 
                     descricaoVeiculo: cmd.descricaoVeiculo
                 );
 

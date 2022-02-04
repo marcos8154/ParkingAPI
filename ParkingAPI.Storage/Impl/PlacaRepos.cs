@@ -53,5 +53,12 @@ namespace ParkingAPI.Storage.Impl
             using (IDbConnection conn = db.GetDbConnection())
                 return conn.Query<Placa>(sql, param).ToList();
         }
+
+        public IReadOnlyCollection<Placa> ObterPorProprietario(string cpfCnpj)
+        {
+            return db.Placas.Where(p =>
+                p.Proprietario.CpfCnpj.Equals(cpfCnpj)
+            ).ToList();
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using IoCdotNet;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata;
 using MySqlConnector;
 using ParkingAPI.Dominio;
 using System;
@@ -11,14 +12,14 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Storage.Impl
 {
-    internal sealed class MySqlDatabase : DbContext, IDatabase
+    public sealed class MySqlDatabase : DbContext, IDatabase
     {
         public DbSet<Estacionamento> Estacionamentos { get; set; }
         public DbSet<Estadia> Estadias { get; set; }
         public DbSet<Placa> Placas { get; set; }
         public DbSet<Proprietario> Proprietarios { get; set; }
         public DbSet<Cobranca> Cobrancas { get; set; }
-
+        public DbSet<Usuario> Usuarios { get; set; }
 
         private readonly IDatabaseConfig cfg;
         private static ServerVersion serverVersion;
@@ -29,15 +30,19 @@ namespace ParkingAPI.Storage.Impl
             DetectServerVersion();
         }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
+
+
+
             options.UseMySql(cfg.ConnectionString(), serverVersion)
                 .UseLazyLoadingProxies();
         }
 
         public void ApplyPendingMigrations()
         {
-            //     Database.EnsureCreated();
+         //      Database.EnsureCreated();
             if (Database.GetPendingMigrations().Count() > 0)
                 Database.Migrate();
         }
@@ -56,9 +61,14 @@ namespace ParkingAPI.Storage.Impl
 
         private void DetectServerVersion()
         {
+            var cString = cfg.ConnectionString()
+                .Replace("ParkingDB", "mysql");
+
             if (serverVersion == null)
-                using (MySqlConnection conn = (MySqlConnection)GetDbConnection())
+                using (MySqlConnection conn = new MySqlConnection(cString))
                     serverVersion = ServerVersion.AutoDetect(conn);
         }
+
+ 
     }
 }

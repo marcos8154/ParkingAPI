@@ -34,6 +34,11 @@ namespace ParkingAPI.Dominio
             }
         }
 
+        private Usuario()
+        {
+
+        }
+
         public Usuario(string nome, string login, string senha)
         {
             Id = Guid.NewGuid();

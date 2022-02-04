@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Commands.Manipuladores.Estadi
 {
-    internal sealed class BuscadorEstadias : ManipuladorComando<BuscarEstadiasAbertas>
+    internal sealed class BuscadorEstadias : ManipuladorComando<BuscarEstadias>
     {
         private readonly IEstadiaRepository estaRepos;
         public BuscadorEstadias()
@@ -18,11 +18,14 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
             estaRepos = IoC.Resolve<IEstadiaRepository>();
         }
 
-        protected override ResultadoAcao ManipulaComando(BuscarEstadiasAbertas cmd)
+        protected override ResultadoAcao ManipulaComando(BuscarEstadias cmd)
         {
             try
             {
-                IReadOnlyCollection<Estadia> est = estaRepos.FindAll();
+                IReadOnlyCollection<Estadia> est = estaRepos.Where(e => 
+                    e.Estacionamento.CNPJ.Contains(cmd.CNPJEstacionamento) &&
+                    e.PlacaId.Contains(cmd.PlacaVeiculo) && 
+                    (cmd.ApenasEmAberto ? e.Encerrado() == false : e.Id != Guid.Empty));
 
                 return new ResultadoAcao(est);
             }

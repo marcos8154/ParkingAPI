@@ -1,3 +1,4 @@
+using IoCdotNet;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -7,9 +8,11 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ParkingAPI.Storage;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace ParkingAPI
@@ -26,6 +29,19 @@ namespace ParkingAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            Assembly asm =typeof(IDatabase).Assembly;
+            BatchBinding.MagicBind(asm, "ParkingAPI.Storage", "ParkingAPI.Storage.Impl");
+
+            IDatabaseConfig cfg = IoC.Resolve<IDatabaseConfig>();
+            cfg.Set(
+                    server: Configuration["Server"],
+                    port: int.Parse(Configuration["Port"]),
+                    user: Configuration["User"],
+                    password: Configuration["Password"]);
+
+            IDatabase db = IoC.Resolve<IDatabase>();
+            db.ApplyPendingMigrations();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

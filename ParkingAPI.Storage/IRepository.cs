@@ -15,6 +15,5 @@ namespace ParkingAPI.Storage
         void Remove(TEntity e);
         IReadOnlyCollection<TEntity> Where(Expression<Func<TEntity, bool>> query);
         IReadOnlyCollection<TEntity> Where(string sql, object param);
-        IReadOnlyCollection<TEntity> FindAll();
     }
 }

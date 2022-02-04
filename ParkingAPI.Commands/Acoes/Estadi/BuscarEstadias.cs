@@ -9,6 +9,10 @@ namespace ParkingAPI.Commands.Acoes.Estadi
 {
     public class BuscarEstadias : IComandoAPI
     {
+        public string CNPJEstacionamento { get; set; }
+        public string PlacaVeiculo { get; set; }
+        public bool ApenasEmAberto { get; set; }
+
         public  async Task<IResultadoAcao> Executar()
         {
             return await new BuscadorEstadias().Manipular(this);

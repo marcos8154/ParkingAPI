@@ -26,14 +26,16 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
             {
                 cmd.Valida();
 
-                Estadia esta = estaRepos.ObterEstadiaAbertaPorPlaca(placa: cmd.placa);
+                Estadia esta = estaRepos.ObterEstadiaAbertaPorPlaca(placa: cmd.PlacaVeiculo);
 
                 if(esta==null)
                     throw new Exception("Não foi encontrado estadia aberta para essa placa");
 
                 Cobranca cob = esta.Saida();
-
                 cobRepos.Add(cob);
+
+                estaRepos.Update(esta);
+
                 return new ResultadoAcao(cob.Descricao);
             }
             catch (Exception ex)

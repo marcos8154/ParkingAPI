@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using IoCdotNet;
+using Microsoft.EntityFrameworkCore;
 using ParkingAPI.Dominio;
 using System;
 using System.Collections.Generic;
@@ -58,6 +59,11 @@ namespace ParkingAPI.Storage.Impl
         {
             using (IDbConnection conn = db.GetDbConnection())
                 return conn.Query<Estacionamento>(sql, param).ToList();
+        }
+
+        public IReadOnlyCollection<Estacionamento> Todos()
+        {
+            return db.Estacionamentos.AsNoTracking().ToList();
         }
     }
 }
