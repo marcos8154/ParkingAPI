@@ -19,13 +19,13 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
-        [HttpPost("atualizar")]
+        [HttpPut("atualizar")]
         public async Task<IResultadoAcao> AtualizarUsuario(AtualizarUsuario cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("login")]
+        [HttpDelete("login")]
         public async Task<IResultadoAcao> LoginUsuario(LoginUsuario cmd)
         {
             return await cmd.Executar();

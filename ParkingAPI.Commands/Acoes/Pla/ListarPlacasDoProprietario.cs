@@ -7,9 +7,14 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Commands.Acoes.Pla
 {
-    public class BuscarPlacaPorProprietario : IComandoAPI
+    public class ListarPlacasDoProprietario : IComandoAPI
     {
-        public string cpfCnpj { get; set; }
+        public string CpfCnpjProprietario { get; set; }
+
+        public ListarPlacasDoProprietario(string cpfCnpjProprietario)
+        {
+            this.CpfCnpjProprietario = cpfCnpjProprietario;
+        }
 
         public  async Task<IResultadoAcao> Executar()
         {
@@ -18,7 +23,7 @@ namespace ParkingAPI.Commands.Acoes.Pla
 
         public void Valida()
         {
-            if (string.IsNullOrEmpty(cpfCnpj))
+            if (string.IsNullOrEmpty(CpfCnpjProprietario))
                 throw new Exception("O CPF / CNPJ é obrigátório");
         }
     }

@@ -25,26 +25,8 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar")]
-        public async Task<IResultadoAcao> BuscarEstadias(BuscarEstadias cmd)
-        {
-            return await cmd.Executar();
-        }
-
-        [HttpPost("buscar abertas")]
-        public async Task<IResultadoAcao> BuscarEstadiasAbertas(BuscarEstadiasAbertas cmd)
-        {
-            return await cmd.Executar();
-        }
-
-        [HttpPost("buscar por estacionamento")]
-        public async Task<IResultadoAcao> BuscarEstadiasPorEstacionamento(BuscarEstadiasPorEstacionamento cmd)
-        {
-            return await cmd.Executar();
-        }
-
-        [HttpPost("buscar por placa")]
-        public async Task<IResultadoAcao> BuscarEstadiasPorPlaca(BuscarEstadiasPorPlaca cmd)
+        [HttpGet("buscar")]
+        public async Task<IResultadoAcao> BuscarEstadiasAbertas([FromBody] BuscarEstadias cmd)
         {
             return await cmd.Executar();
         }

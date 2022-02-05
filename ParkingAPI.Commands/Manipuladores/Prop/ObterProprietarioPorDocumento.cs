@@ -11,19 +11,21 @@ using ParkingAPI.Dominio.DTO;
 
 namespace ParkingAPI.Commands.Manipuladores.Prop
 {
-    internal sealed class BuscadorProprietario : ManipuladorComando<BuscarProprietario>
+    internal sealed class ObterProprietarioPorDocumento : ManipuladorComando<Acoes.Prop.BuscarProprietarioPorDoc>
     {
         private readonly IProprietarioRepository propRepos;
-        public BuscadorProprietario()
+        public ObterProprietarioPorDocumento()
         {
             propRepos = IoC.Resolve<IProprietarioRepository>();
         }
 
-        protected override ResultadoAcao ManipulaComando(BuscarProprietario cmd)
+        protected override ResultadoAcao ManipulaComando(Acoes.Prop.BuscarProprietarioPorDoc cmd)
         {
             try
             {
-                IReadOnlyCollection<Proprietario> pro = propRepos.FindAll();
+                cmd.Valida();
+
+                Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpj);
 
                 return new ResultadoAcao(pro);
             }

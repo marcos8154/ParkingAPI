@@ -19,37 +19,26 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
-        [HttpPost("criar placa")]
-        public async Task<IResultadoAcao> CriarPlacaProprietario(CriarPlacaProprietario cmd)
-        {
-            return await cmd.Executar();
-        }
-
-        [HttpPost("atualizar")]
+        [HttpPut("atualizar")]
         public async Task<IResultadoAcao> AtualizarProprietario(AtualizarProprietario cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar")]
-        public async Task<IResultadoAcao> BuscarProprietario(BuscarProprietario cmd)
+        [HttpGet("buscarPorDocumento/{cpfCnpj}")]
+        public async Task<IResultadoAcao> BuscarProprietarioPorCpfCnpj(string cpfCnpj)
         {
+            IComandoAPI cmd = new BuscarProprietarioPorDoc(cpfCnpj);
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar por cnpj ou cpf")]
-        public async Task<IResultadoAcao> BuscarProprietarioPorCpfCnpj(BuscarProprietarioPorCpfCnpj cmd)
-        {
-            return await cmd.Executar();
-        }
-
-        [HttpPost("buscar por tipo e pesquisa")]
+        [HttpGet("pesquisar")]
         public async Task<IResultadoAcao> BuscarProprietarioPorTipo(BuscarProprietarioPorTipo cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("excluir")]
+        [HttpDelete("excluir")]
         public async Task<IResultadoAcao> ExcluirProprietario(ExcluirProprietario cmd)
         {
             return await cmd.Executar();

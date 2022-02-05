@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Commands.Manipuladores.Pla
 {
-    internal sealed class BuscadorPlacaPorProprietario : ManipuladorComando<BuscarPlacaPorProprietario>
+    internal sealed class BuscadorPlacaPorProprietario : ManipuladorComando<ListarPlacasDoProprietario>
     {
         private readonly IPlacaRepository plaRepos;
         public BuscadorPlacaPorProprietario()
@@ -18,15 +18,14 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
             plaRepos = IoC.Resolve<IPlacaRepository>();
         }
 
-        protected override ResultadoAcao ManipulaComando(BuscarPlacaPorProprietario cmd)
+        protected override ResultadoAcao ManipulaComando(ListarPlacasDoProprietario cmd)
         {
             try
             {
                 cmd.Valida();
 
-                IReadOnlyCollection<Placa> pla = plaRepos.ObterPorProprietario(cpfCnpj: cmd.cpfCnpj);
-                
-                return new ResultadoAcao(pla);
+                IReadOnlyCollection<Placa> placas = plaRepos.ObterPorProprietario(cpfCnpj: cmd.CpfCnpjProprietario);
+                return new ResultadoAcao(placas);
             }
             catch (Exception ex)
             {

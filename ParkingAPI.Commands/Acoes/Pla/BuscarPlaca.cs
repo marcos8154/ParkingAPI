@@ -9,6 +9,13 @@ namespace ParkingAPI.Commands.Acoes.Pla
 {
     public class BuscarPlaca : IComandoAPI
     {
+        public string PlacaVeiculo { get; set; }
+
+        public BuscarPlaca(string placaVeiculo)
+        {
+            PlacaVeiculo = placaVeiculo;
+        }
+
         public  async Task<IResultadoAcao> Executar()
         {
             return await new BuscadorPlaca().Manipular(this);
@@ -16,7 +23,8 @@ namespace ParkingAPI.Commands.Acoes.Pla
 
         public void Valida()
         {
-
+            if (string.IsNullOrEmpty(PlacaVeiculo))
+                throw new Exception("A placa do veículo não foi informada");
         }
     }
 }

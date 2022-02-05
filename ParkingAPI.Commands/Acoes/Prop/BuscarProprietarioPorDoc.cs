@@ -8,13 +8,18 @@ using ParkingAPI.Dominio.Enum;
 
 namespace ParkingAPI.Commands.Acoes.Prop
 {
-    public class BuscarProprietarioPorCpfCnpj : IComandoAPI
+    public class BuscarProprietarioPorDoc : IComandoAPI
     {
+        public BuscarProprietarioPorDoc(string cpfCnpj)
+        {
+            CpfCnpj = cpfCnpj;
+        }
+
         public string CpfCnpj { get; set; }
 
         public  async Task<IResultadoAcao> Executar()
         {
-            return await new BuscadorProprietarioPorCpfCnpj().Manipular(this);
+            return await new ObterProprietarioPorDocumento().Manipular(this);
         }
 
         public void Valida()

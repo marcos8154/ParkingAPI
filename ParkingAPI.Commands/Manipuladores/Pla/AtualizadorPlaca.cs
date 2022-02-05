@@ -26,16 +26,17 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
             {
                 cmd.Valida();
 
-                Placa pla = plaRepos.Find(id: cmd.placa);
+                Placa pla = plaRepos.Find(id: cmd.PlacaVeiculo);
                 pla.AtualizaInfo(
-                    id: cmd.placa,
-                    descricaoVeiculo: cmd.descricaoVeiculo,
-                    padrao: cmd.padrao
+                    id: cmd.PlacaVeiculo,
+                    descricaoVeiculo: cmd.DescricaoVeiculo,
+                    prioritaria: cmd.PlacaPrioritaria
                 );
 
-                if(cmd.cpfCnpjProprietario != null) {
-                    Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.cpfCnpjProprietario);
-                    if(pro == null)
+                if (!string.IsNullOrEmpty(cmd.CpfCnpjProprietario))
+                {
+                    Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpjProprietario);
+                    if (pro == null)
                         throw new Exception("Proprietário não encontrado");
 
                     pla.DefineProprietario(pro);

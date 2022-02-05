@@ -11,10 +11,10 @@ using ParkingAPI.Dominio.DTO;
 
 namespace ParkingAPI.Commands.Manipuladores.Prop
 {
-    internal sealed class BuscadorProprietarioPorTipo : ManipuladorComando<BuscarProprietarioPorTipo>
+    internal sealed class PesquisadorListaProprietarios : ManipuladorComando<BuscarProprietarioPorTipo>
     {
         private readonly IProprietarioRepository propRepos;
-        public BuscadorProprietarioPorTipo()
+        public PesquisadorListaProprietarios()
         {
             propRepos = IoC.Resolve<IProprietarioRepository>();
         }
@@ -25,9 +25,15 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
             {
                 cmd.Valida();
 
-                Proprietario pro = propRepos.ObterPorTipo(tipo: cmd.Tipo, pesquisa: cmd.Busca);
+                List<Proprietario> proprietarios = propRepos.Where(p => 
+                        p.CpfCnpj.Contains(cmd.Busca) ||
+                        p.Nome.Contains(cmd.Busca) ||
+                        p.Logradouro.Contains(cmd.Busca) ||
+                        p.Rg.Contains(cmd.Busca) ||
+                        p.Telefone.Contains(cmd.Busca))
+                    .ToList();
 
-                return new ResultadoAcao(pro);
+                return new ResultadoAcao(proprietarios);
             }
             catch (Exception ex)
             {

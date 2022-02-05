@@ -9,7 +9,7 @@ namespace ParkingAPI.Storage
 {
     public interface IDatabaseConfig
     {
-        void Set(string server, int port, string user, string password, string dbName);
+        void Set(string server, int port, string user, string password);
 
         string ConnectionString();
     }

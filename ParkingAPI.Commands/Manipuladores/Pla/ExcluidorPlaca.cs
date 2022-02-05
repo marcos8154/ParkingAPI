@@ -25,7 +25,7 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
             {
                 cmd.Valida();
 
-                Placa pla = plaRepos.Find(id: cmd.placa);
+                Placa pla = plaRepos.Find(id: cmd.PlacaVeiculo);
 
                 if(pla == null)
                     throw new Exception("Placa não encontrado");

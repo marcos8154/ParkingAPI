@@ -26,29 +26,21 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 cmd.Valida();
 
                 Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpj);
-
-                EnderecoDTO endereco = new EnderecoDTO(
-                    cep: cmd.Cep,
-                    logradouro: cmd.Logradouro,
-                    numero: cmd.Numero,
-                    bairro: cmd.Bairro,
-                    complemento: cmd.Complemento,
-                    municipio: cmd.Municipio,
-                    uF: cmd.UF
-                );
+                EnderecoDTO endereco = ObterEndereco(cmd);
 
                 pro.AtualizaInfo(
-                    tipo:cmd.Tipo, 
-                    nome: cmd.Nome, 
-                    apelido: cmd.Apelido, 
-                    cpfCnpj: cmd.CpfCnpj, 
-                    rg: cmd.Rg, 
-                    email: cmd.Email, 
-                    telefone: cmd.Telefone, 
-                    celular: cmd.Celular, 
-                    vagas: cmd.VagasContratadas, 
-                    endereco: endereco
+                    tipo: cmd.Tipo,
+                    nome: cmd.Nome,
+                    apelido: cmd.Apelido,
+                    cpfCnpj: cmd.CpfCnpj,
+                    rg: cmd.Rg,
+                    email: cmd.Email,
+                    telefone: cmd.Telefone,
+                    celular: cmd.Celular,
+                    vagas: cmd.VagasContratadas
                 );
+
+                pro.AtualizaEndereco(endereco);
 
                 propRepos.Update(pro);
                 return new ResultadoAcao("Proprietário atualizado");
@@ -57,6 +49,19 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
             {
                 return new ResultadoAcao(ex);
             }
+        }
+
+        private static EnderecoDTO ObterEndereco(AtualizarProprietario cmd)
+        {
+            return new EnderecoDTO(
+                                cep: cmd.Cep,
+                                logradouro: cmd.Logradouro,
+                                numero: cmd.Numero,
+                                bairro: cmd.Bairro,
+                                complemento: cmd.Complemento,
+                                municipio: cmd.Municipio,
+                                uF: cmd.UF
+                            );
         }
     }
 }

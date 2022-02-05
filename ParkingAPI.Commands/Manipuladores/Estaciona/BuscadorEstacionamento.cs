@@ -23,8 +23,7 @@ namespace ParkingAPI.Commands.Manipuladores.Estaciona
         {
             try
             {
-                IReadOnlyCollection<Estacionamento> est = estRepos.FindAll();
-                
+                var est = estRepos.Todos();
                 return new ResultadoAcao(est);
             }
             catch (Exception ex)

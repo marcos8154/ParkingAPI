@@ -19,25 +19,25 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
-        [HttpPost("atualizar")]
+        [HttpPut("atualizar")]
         public async Task<IResultadoAcao> AtualizarEstacionamento(AtualizarEstacionamento cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar")]
+        [HttpGet("buscar")]
         public async Task<IResultadoAcao> BuscarEstacionamento(BuscarEstacionamento cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("buscar por cnpj")]
+        [HttpGet("buscarCNPJ")]
         public async Task<IResultadoAcao> BuscarEstacionamentoPorCnpj(BuscarEstacionamentoPorCnpj cmd)
         {
             return await cmd.Executar();
         }
 
-        [HttpPost("excluir")]
+        [HttpDelete("excluir")]
         public async Task<IResultadoAcao> ExcluirEstacionamento(ExcluirEstacionamento cmd)
         {
             return await cmd.Executar();

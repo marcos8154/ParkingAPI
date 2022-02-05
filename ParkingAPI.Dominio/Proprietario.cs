@@ -28,7 +28,11 @@ namespace ParkingAPI.Dominio
         public string Celular { get; private set; }
         public int VagasContratadas { get; private set; }
         public virtual List<Placa> Placas { get; private set; }
-        public virtual List<Estadia> EstadiasMensalistaAberta { get; private set; }
+
+        private Proprietario()
+        {
+
+        }
 
         public Proprietario(
             TipoProprietario tipo,
@@ -62,10 +66,10 @@ namespace ParkingAPI.Dominio
                 throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
             }
 
-            AtualizaInfo(tipo, nome, apelido, cpfCnpj, rg, email, telefone, celular, vagas, endereco);
+            AtualizaInfo(tipo, nome, apelido, cpfCnpj, rg, email, telefone, celular, vagas);
+            AtualizaEndereco(endereco);
 
             Placas = new List<Placa>();
-            EstadiasMensalistaAberta = new List<Estadia>();
         }
 
         public void AtualizaInfo(
@@ -77,8 +81,7 @@ namespace ParkingAPI.Dominio
             string email,
             string telefone,
             string celular,
-            int vagas,
-            EnderecoDTO endereco)
+            int vagas)
         {
             if (string.IsNullOrEmpty(nome))
                 throw new Exception("O nome é obrigátório");
@@ -106,22 +109,6 @@ namespace ParkingAPI.Dominio
             VagasContratadas = vagas;
 
             AtualizaInfoContato(email, telefone, celular);
-            AtualizaEndereco(endereco);
-        }
-
-        internal Estadia ObterEstadiaPlacaComum()
-        {
-            return EstadiasMensalistaAberta.FirstOrDefault(p => p.Placa.PlacaPrioritaria == false);
-        }
-
-        internal bool PossuiDisponibilidade()
-        {
-            return VagasEmConsumo() <= VagasContratadas;
-        }
-
-        internal int VagasEmConsumo()
-        {
-            return EstadiasMensalistaAberta.Count;
         }
 
         private void AtualizaInfoContato(string email, string telefone, string celular)
@@ -131,9 +118,8 @@ namespace ParkingAPI.Dominio
             Celular = celular;
         }
 
-        private void AtualizaEndereco(EnderecoDTO endereco)
+        public void AtualizaEndereco(EnderecoDTO endereco)
         {
-
             Cep = endereco.Cep;
             Logradouro = endereco.Logradouro;
             Numero = endereco.Numero;
@@ -148,9 +134,5 @@ namespace ParkingAPI.Dominio
             placa.DefineProprietario(this);
             Placas.Add(placa);
         }
-
-
-
-
     }
 }

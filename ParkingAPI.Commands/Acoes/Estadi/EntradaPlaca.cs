@@ -9,8 +9,8 @@ namespace ParkingAPI.Commands.Acoes.Estadi
 {
     public class EntradaPlaca : IComandoAPI
     {
-        public string cnpj_estacionamento { get; set; }
-        public string placa { get; set; }
+        public string CNPJEstabelecimento { get; set; }
+        public string PlacaVeiculo { get; set; }
 
         public async Task<IResultadoAcao> Executar()
         {
@@ -19,9 +19,9 @@ namespace ParkingAPI.Commands.Acoes.Estadi
 
         public void Valida()
         {
-            if (string.IsNullOrEmpty(cnpj_estacionamento))
+            if (string.IsNullOrEmpty(CNPJEstabelecimento))
                 throw new Exception("O CNPJ do estacionamento é obrigatório");
-            if (string.IsNullOrEmpty(placa))
+            if (string.IsNullOrEmpty(PlacaVeiculo))
                 throw new Exception("A placa do veículo é obrigátória");
         }
     }
