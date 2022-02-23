@@ -25,7 +25,7 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
-        [HttpDelete("login")]
+        [HttpPost("login")]
         public async Task<IResultadoAcao> LoginUsuario(LoginUsuario cmd)
         {
             return await cmd.Executar();

@@ -43,6 +43,13 @@ namespace ParkingAPI
             IDatabase db = IoC.Resolve<IDatabase>();
             db.ApplyPendingMigrations();
 
+            services.AddCors(o => o.AddPolicy("ParkingAPI", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -59,6 +66,8 @@ namespace ParkingAPI
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ParkingAPI v1"));
             }
+
+            app.UseCors("ParkingAPI");
 
             app.UseHttpsRedirection();
             app.UseRouting();
