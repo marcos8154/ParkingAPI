@@ -1,5 +1,6 @@
 ﻿using IoCdotNet;
 using ParkingAPI.Commands.Acoes.Pla;
+using ParkingAPI.Commands.ViewModels;
 using ParkingAPI.Dominio;
 using ParkingAPI.Storage;
 using System;
@@ -25,7 +26,15 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                 cmd.Valida();
 
                 Placa placa = plaRepos.Find(cmd.PlacaVeiculo);
-                return new ResultadoAcao(placa);
+                string nomeProprietario = (placa.Proprietario == null ? "PROPRIETÁRIO NÃO VINCULADO" : placa.Proprietario.Nome);
+                PlacaViewModel vm = new PlacaViewModel(
+                        proprietario: nomeProprietario,
+                        placa: placa.Id,
+                        veiculo: placa.DescricaoVeiculo,
+                        prioritaria: placa.PlacaPrioritaria
+                    );
+
+                return new ResultadoAcao(vm);
             }
             catch (Exception ex)
             {

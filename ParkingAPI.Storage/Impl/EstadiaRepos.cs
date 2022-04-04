@@ -25,7 +25,7 @@ namespace ParkingAPI.Storage.Impl
         {
             return db.Estadias.FirstOrDefault(e =>
                 e.PlacaId.Equals(placa) &&
-                e.Encerrado());
+                e.DataSaida == null);
         }
 
         public IReadOnlyCollection<Estadia> ObterEstadiaPorPlaca(string placa)
@@ -68,9 +68,9 @@ namespace ParkingAPI.Storage.Impl
             db.Commit();
         }
 
-        public IReadOnlyCollection<Estadia> Where(Expression<Func<Estadia, bool>> query)
+        public IQueryable<Estadia> Where(Expression<Func<Estadia, bool>> query)
         {
-            return db.Estadias.Where(query).ToList();
+            return db.Estadias.Where(query);
         }
 
         public IReadOnlyCollection<Estadia> Where(string sql, object param)

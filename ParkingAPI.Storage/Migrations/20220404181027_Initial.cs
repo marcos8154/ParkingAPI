@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ParkingAPI.Storage.Migrations
 {
-    public partial class initial : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -111,36 +111,14 @@ namespace ParkingAPI.Storage.Migrations
                 .Annotation("MySql:CharSet", "utf8mb4");
 
             migrationBuilder.CreateTable(
-                name: "Cobrancas",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
-                    DataHora = table.Column<DateTime>(type: "datetime(6)", nullable: false),
-                    Valor = table.Column<decimal>(type: "decimal(65,30)", nullable: false),
-                    Descricao = table.Column<string>(type: "longtext", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4"),
-                    PlacaId = table.Column<string>(type: "varchar(255)", nullable: true)
-                        .Annotation("MySql:CharSet", "utf8mb4")
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Cobrancas", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Cobrancas_Placas_PlacaId",
-                        column: x => x.PlacaId,
-                        principalTable: "Placas",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                })
-                .Annotation("MySql:CharSet", "utf8mb4");
-
-            migrationBuilder.CreateTable(
                 name: "Estadias",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "char(36)", nullable: false, collation: "ascii_general_ci"),
                     DataEntrada = table.Column<DateTime>(type: "datetime(6)", nullable: false),
                     DataSaida = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    TempoConsumo = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
                     Tipo = table.Column<int>(type: "int", nullable: false),
                     Observacao = table.Column<string>(type: "longtext", nullable: true)
                         .Annotation("MySql:CharSet", "utf8mb4"),
@@ -165,6 +143,46 @@ namespace ParkingAPI.Storage.Migrations
                         onDelete: ReferentialAction.Restrict);
                 })
                 .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateTable(
+                name: "Cobrancas",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "char(50)", maxLength: 50, nullable: false, collation: "ascii_general_ci"),
+                    DataHora = table.Column<DateTime>(type: "datetime(6)", nullable: false),
+                    Valor = table.Column<decimal>(type: "decimal(10,2)", precision: 10, scale: 2, nullable: false),
+                    Descricao = table.Column<string>(type: "varchar(180)", maxLength: 180, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    PlacaId = table.Column<string>(type: "varchar(50)", maxLength: 50, nullable: false)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    Pago = table.Column<bool>(type: "tinyint(1)", nullable: false),
+                    DataPagamento = table.Column<DateTime>(type: "datetime(6)", nullable: true),
+                    CodigoCobranca = table.Column<string>(type: "longtext", nullable: true)
+                        .Annotation("MySql:CharSet", "utf8mb4"),
+                    EstadiaId = table.Column<Guid>(type: "char(36)", nullable: true, collation: "ascii_general_ci")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cobrancas", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Cobrancas_Estadias_EstadiaId",
+                        column: x => x.EstadiaId,
+                        principalTable: "Estadias",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Cobrancas_Placas_PlacaId",
+                        column: x => x.PlacaId,
+                        principalTable: "Placas",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                })
+                .Annotation("MySql:CharSet", "utf8mb4");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Cobrancas_EstadiaId",
+                table: "Cobrancas",
+                column: "EstadiaId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cobrancas_PlacaId",
@@ -193,10 +211,10 @@ namespace ParkingAPI.Storage.Migrations
                 name: "Cobrancas");
 
             migrationBuilder.DropTable(
-                name: "Estadias");
+                name: "Usuarios");
 
             migrationBuilder.DropTable(
-                name: "Usuarios");
+                name: "Estadias");
 
             migrationBuilder.DropTable(
                 name: "Estacionamentos");

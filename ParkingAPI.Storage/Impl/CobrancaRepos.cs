@@ -43,10 +43,9 @@ namespace ParkingAPI.Storage.Impl
             db.Commit();
         }
 
-        public IReadOnlyCollection<Cobranca> Where(Expression<Func<Cobranca, bool>> query)
+        public IQueryable<Cobranca> Where(Expression<Func<Cobranca, bool>> query)
         {
-            return db.Cobrancas.Where(query)
-                  .ToList();
+            return db.Cobrancas.Where(query);
         }
 
         public IReadOnlyCollection<Cobranca> Where(string sql, object param)

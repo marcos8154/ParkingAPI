@@ -12,7 +12,7 @@ namespace ParkingAPI.Dominio
         public Guid Id { get; private set; }
         public DateTime DataEntrada { get; private set; }
         public DateTime? DataSaida { get; private set; }
-
+        public string TempoConsumo { get; private set; }
 
         public TipoEstadia Tipo { get; private set; }
 
@@ -43,7 +43,7 @@ namespace ParkingAPI.Dominio
             Tipo = tipo;
         }
 
-        private Estadia()
+        public Estadia()
         {
 
         }
@@ -56,7 +56,9 @@ namespace ParkingAPI.Dominio
         public double TotalMinutos()
         {
             if (DataSaida == null) return 0;
-            double totalMin = ((DateTime)DataSaida - DataEntrada).TotalMinutes;
+            TimeSpan ts = ((DateTime)DataSaida - DataEntrada);
+            double totalMin = ts.TotalMinutes;
+
             return totalMin;
         }
 
@@ -65,17 +67,21 @@ namespace ParkingAPI.Dominio
             if (Estacionamento == null) return null;
             if (!string.IsNullOrEmpty(obs)) Observacao = obs;
 
+            DataEntrada = DateTime.Now.AddMinutes(-12.5);
             DataSaida = DateTime.Now;
+            TimeSpan ts = ((DateTime)DataSaida - DataEntrada);
+            TempoConsumo = $"{(int)ts.TotalHours} horas e {(int)ts.TotalMinutes} minutos";
+
             Cobranca cobrancaEstacionamento;
             if (Tipo == TipoEstadia.Mensalista)
             {
                 //se estadia for de mensalista, gera cobrança com valor zerado
-                cobrancaEstacionamento = new Cobranca(Placa, 0, $"Estadia de '{PlacaId}' (mensalista) por {TotalMinutos()} minutos");
+                cobrancaEstacionamento = new Cobranca(Placa, 0, $"Estadia de '{PlacaId}' (mensalista) por {TempoConsumo}", this);
             }
             else
             {
                 decimal valor = Estacionamento.CalculaValorEstadia(this);
-                cobrancaEstacionamento = new Cobranca(Placa, valor, $"Estadia de '{PlacaId}' por {TotalMinutos()} minutos");
+                cobrancaEstacionamento = new Cobranca(Placa, valor, $"Estadia de '{PlacaId}' por {TempoConsumo}", this);
             }
 
             return cobrancaEstacionamento;

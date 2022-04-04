@@ -36,7 +36,7 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 );
 
                 Proprietario pro = new Proprietario(
-                    tipo: cmd.Tipo, 
+                    tipo: cmd.GetTipoPessoa(), 
                     nome: cmd.Nome, 
                     apelido: cmd.Apelido,
                     cpfCnpj: cmd.CpfCnpj,

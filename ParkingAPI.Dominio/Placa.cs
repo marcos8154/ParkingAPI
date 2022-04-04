@@ -37,7 +37,6 @@ namespace ParkingAPI.Dominio
             return ProprietarioId == null;
         }
 
-
         public Placa(string codigoPlaca, string descricaoVeiculo = "", bool padrao = false)
         {
             if (string.IsNullOrEmpty(codigoPlaca))
@@ -46,7 +45,7 @@ namespace ParkingAPI.Dominio
             AtualizaInfo(codigoPlaca, descricaoVeiculo, padrao);
         }
 
-        private Placa()
+        public Placa()
         {
 
         }
@@ -54,7 +53,7 @@ namespace ParkingAPI.Dominio
 
         public void AtualizaInfo(string id, string descricaoVeiculo, bool prioritaria)
         {
-            if (string.IsNullOrEmpty(Id))
+            if (string.IsNullOrEmpty(id))
                 throw new Exception("A placa do veículo é obrigátória");
 
             Id = id;

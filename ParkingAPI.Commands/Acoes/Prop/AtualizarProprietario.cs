@@ -13,7 +13,7 @@ namespace ParkingAPI.Commands.Acoes.Prop
         public string Id { get; set; }
         public string Nome { get; private set; }
         public string Apelido { get; private set; }
-        public TipoProprietario Tipo { get; private set; }
+        public TipoPessoa Tipo { get; private set; }
         public string CpfCnpj { get; private set; }
         public string Rg { get; private set; }
         public string Cep { get; private set; }
@@ -47,11 +47,11 @@ namespace ParkingAPI.Commands.Acoes.Prop
             if (string.IsNullOrEmpty(CpfCnpj))
                 throw new Exception("O CPF / CNPJ é obrigátório");
 
-            if (Tipo == TipoProprietario.PessoaFisica && CpfCnpj.Length != 11)
+            if (Tipo == TipoPessoa.PessoaFisica && CpfCnpj.Length != 11)
             {
                 throw new Exception("Para o tipo pessoa física, informe o CPF");
             }
-            else if (Tipo == TipoProprietario.PessoaJuridica && CpfCnpj.Length != 14)
+            else if (Tipo == TipoPessoa.PessoaJuridica && CpfCnpj.Length != 14)
             {
                 throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
             }

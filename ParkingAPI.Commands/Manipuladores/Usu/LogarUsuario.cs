@@ -1,5 +1,6 @@
 ﻿using IoCdotNet;
 using ParkingAPI.Commands.Acoes.Usu;
+using ParkingAPI.Commands.ViewModels;
 using ParkingAPI.Dominio;
 using ParkingAPI.Storage;
 using System;
@@ -46,11 +47,13 @@ namespace ParkingAPI.Commands.Manipuladores.Usu
 
                 Usuario usu = usuarioRepos.Login(cmd.Login, CalculaHash(cmd.Senha));
 
-                if(usu==null) {
-                    throw new Exception("Login e/ou senha incorretos.");
-                } else {
-                    return new ResultadoAcao(usu);
-                }  
+                if (usu == null)
+                    return new ResultadoAcao("Login e/ou senha incorretos.", StatusRetorno.NotFound);
+
+                LoginViewModel res = new LoginViewModel(usu.Login,
+                    token: "IMPLEMENTAR JWT!!!");
+
+                return new ResultadoAcao(res);
             }
             catch (Exception ex)
             {

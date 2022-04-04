@@ -10,9 +10,17 @@ namespace ParkingAPI.Commands.Acoes.Prop
 {
     public class CriarProprietario : IComandoAPI
     {
+        public TipoPessoa GetTipoPessoa()
+        {
+            if (string.IsNullOrEmpty(TipoPessoaProprietario)) throw new Exception("TipoPessoaProprietario não foi informado");
+            if (TipoPessoaProprietario.Equals("PF")) return TipoPessoa.PessoaFisica;
+            if (TipoPessoaProprietario.Equals("PJ")) return TipoPessoa.PessoaJuridica;
+            throw new Exception($"'{TipoPessoaProprietario}' não é um valor válido para TipoPessoaProprietario");
+        }
+
         public string Nome { get; set; }
         public string Apelido { get; set; }
-        public TipoProprietario Tipo { get; set; }
+        public string TipoPessoaProprietario { get; set; }
         public string CpfCnpj { get; set; }
         public string Rg { get; set; }
         public string Cep { get; set; }
@@ -43,10 +51,20 @@ namespace ParkingAPI.Commands.Acoes.Prop
             if (string.IsNullOrEmpty(CpfCnpj))
                 throw new Exception("O CPF / CNPJ é obrigátório");
 
-            if (Tipo == TipoProprietario.PessoaFisica && CpfCnpj.Length != 11)
-                throw new Exception("Para o tipo pessoa física, informe o CPF");
-            else if (Tipo == TipoProprietario.PessoaJuridica && CpfCnpj.Length != 14)
-                throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
+            switch (TipoPessoaProprietario)
+            {
+                case "PF":
+                    if (CpfCnpj.Length != 11)
+                        throw new Exception("Para o tipo pessoa física, informe o CPF");
+                    break;
+
+                case "PJ":
+                    if (CpfCnpj.Length != 14)
+                        throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
+                    break;
+
+                default: throw new Exception("TipoPessoa não identificado. Valores aceitos são: PF ou PJ");
+            }
         }
     }
 }

@@ -27,7 +27,7 @@ namespace ParkingAPI.Dominio
             Estadias = new List<Estadia>();
         }
 
-        private Estacionamento()
+        public Estacionamento()
         {
 
         }
@@ -47,6 +47,7 @@ namespace ParkingAPI.Dominio
         {
             double totalMinutos = estadia.TotalMinutos();
             int ciclosEstadia = (int)(totalMinutos / TempoEstadia);
+            if (ciclosEstadia == 0) ciclosEstadia = 1;
             decimal valorEstadia = ciclosEstadia * ValorEstadia;
             valorEstadia = decimal.Round(valorEstadia, 2, MidpointRounding.ToEven);
             return valorEstadia;

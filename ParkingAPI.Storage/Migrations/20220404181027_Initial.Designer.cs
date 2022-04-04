@@ -9,8 +9,8 @@ using ParkingAPI.Storage.Impl;
 namespace ParkingAPI.Storage.Migrations
 {
     [DbContext(typeof(MySqlDatabase))]
-    [Migration("20220204220633_initial")]
-    partial class initial
+    [Migration("20220404181027_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,21 +23,41 @@ namespace ParkingAPI.Storage.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
+                        .HasMaxLength(50)
+                        .HasColumnType("char(50)");
+
+                    b.Property<string>("CodigoCobranca")
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime>("DataHora")
                         .HasColumnType("datetime(6)");
 
+                    b.Property<DateTime?>("DataPagamento")
+                        .HasColumnType("datetime(6)");
+
                     b.Property<string>("Descricao")
-                        .HasColumnType("longtext");
+                        .IsRequired()
+                        .HasMaxLength(180)
+                        .HasColumnType("varchar(180)");
+
+                    b.Property<Guid?>("EstadiaId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<bool>("Pago")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("PlacaId")
-                        .HasColumnType("varchar(255)");
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)");
 
                     b.Property<decimal>("Valor")
-                        .HasColumnType("decimal(65,30)");
+                        .HasPrecision(10, 2)
+                        .HasColumnType("decimal(10,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("EstadiaId");
 
                     b.HasIndex("PlacaId");
 
@@ -87,6 +107,9 @@ namespace ParkingAPI.Storage.Migrations
 
                     b.Property<string>("PlacaId")
                         .HasColumnType("varchar(255)");
+
+                    b.Property<string>("TempoConsumo")
+                        .HasColumnType("longtext");
 
                     b.Property<int>("Tipo")
                         .HasColumnType("int");
@@ -202,9 +225,17 @@ namespace ParkingAPI.Storage.Migrations
 
             modelBuilder.Entity("ParkingAPI.Dominio.Cobranca", b =>
                 {
+                    b.HasOne("ParkingAPI.Dominio.Estadia", "Estadia")
+                        .WithMany()
+                        .HasForeignKey("EstadiaId");
+
                     b.HasOne("ParkingAPI.Dominio.Placa", "Placa")
                         .WithMany()
-                        .HasForeignKey("PlacaId");
+                        .HasForeignKey("PlacaId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Estadia");
 
                     b.Navigation("Placa");
                 });
