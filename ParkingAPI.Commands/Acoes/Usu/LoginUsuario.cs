@@ -22,7 +22,7 @@ namespace ParkingAPI.Commands.Acoes.Usu
             if (string.IsNullOrEmpty(Login))
                 throw new Exception("O login é obrigatório");
             if (string.IsNullOrEmpty(Senha))
-                throw new Exception("A senha é obrigatório");
+                throw new Exception("A senha é obrigatória");
         }
     }
 }

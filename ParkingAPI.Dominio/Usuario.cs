@@ -14,6 +14,11 @@ namespace ParkingAPI.Dominio
         public string Login { get; private set; }
         public string Senha { get; private set; }
 
+        static void Main()
+        {
+
+        }
+
         public static string CalculaHash(string Senha)
         {
             try
