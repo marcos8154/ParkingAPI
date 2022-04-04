@@ -43,9 +43,9 @@ namespace ParkingAPI.Storage.Impl
             db.Commit();
         }
 
-        public IReadOnlyCollection<Placa> Where(Expression<Func<Placa, bool>> query)
+        public IQueryable<Placa> Where(Expression<Func<Placa, bool>> query)
         {
-            return db.Placas.Where(query).ToList();
+            return db.Placas.Where(query);
         }
 
         public IReadOnlyCollection<Placa> Where(string sql, object param)

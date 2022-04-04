@@ -1,5 +1,6 @@
 ﻿using IoCdotNet;
 using ParkingAPI.Commands.Acoes.Estadi;
+using ParkingAPI.Commands.ViewModels;
 using ParkingAPI.Dominio;
 using ParkingAPI.Storage;
 using System;
@@ -28,15 +29,17 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
 
                 Estadia esta = estaRepos.ObterEstadiaAbertaPorPlaca(placa: cmd.PlacaVeiculo);
 
-                if(esta==null)
-                    throw new Exception("Não foi encontrado estadia aberta para essa placa");
+                if (esta == null)
+                    return new ResultadoAcao("Não foi encontrado estadia aberta para essa placa", StatusRetorno.NotFound);
 
                 Cobranca cob = esta.Saida();
                 cobRepos.Add(cob);
 
+                CobrancaViewModel saida = new CobrancaViewModel( cob);
+
                 estaRepos.Update(esta);
 
-                return new ResultadoAcao(cob.Descricao);
+                return new ResultadoAcao(saida);
             }
             catch (Exception ex)
             {

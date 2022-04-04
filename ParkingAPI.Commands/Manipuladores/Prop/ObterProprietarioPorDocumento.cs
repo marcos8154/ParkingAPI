@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using ParkingAPI.Dominio.DTO;
+using ParkingAPI.Commands.ViewModels;
 
 namespace ParkingAPI.Commands.Manipuladores.Prop
 {
@@ -26,8 +27,11 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 cmd.Valida();
 
                 Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpj);
+                if (pro == null) return new ResultadoAcao($"Proprietário não localizado pelo CPF/CNPJ '{cmd.CpfCnpj}'", StatusRetorno.NotFound);
 
-                return new ResultadoAcao(pro);
+                ProprietarioViewModel vm = new ProprietarioViewModel(pro);
+
+                return new ResultadoAcao(vm);
             }
             catch (Exception ex)
             {

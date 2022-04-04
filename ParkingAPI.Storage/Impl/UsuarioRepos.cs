@@ -22,9 +22,10 @@ namespace ParkingAPI.Storage.Impl
 
         public Usuario Login(string login, string senha)
         {
+            string senhaComparar = Usuario.CalculaHash(senha);
             return db.Usuarios.FirstOrDefault(u =>
                 u.Login.Equals(login) && 
-                u.Senha.Equals(senha)
+                u.Senha.Equals(senhaComparar)
             );
         }
 
@@ -56,9 +57,9 @@ namespace ParkingAPI.Storage.Impl
             db.Commit();
         }
 
-        public IReadOnlyCollection<Usuario> Where(Expression<Func<Usuario, bool>> query)
+        public IQueryable<Usuario> Where(Expression<Func<Usuario, bool>> query)
         {
-            return db.Usuarios.Where(query).ToList();
+            return db.Usuarios.Where(query);
         }
 
         public IReadOnlyCollection<Usuario> Where(string sql, object param)

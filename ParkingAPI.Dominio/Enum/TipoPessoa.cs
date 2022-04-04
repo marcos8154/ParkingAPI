@@ -1,6 +1,6 @@
 ﻿namespace ParkingAPI.Dominio.Enum
 {
-    public enum TipoProprietario
+    public enum TipoPessoa
     {
         PessoaFisica = 1,
         PessoaJuridica = 2

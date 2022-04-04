@@ -4,8 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace CFIS.Misc
+namespace ParkingAPI.Dominio
 {
+    
     public interface IAutomapperFacade
     {
 
@@ -15,4 +16,5 @@ namespace CFIS.Misc
 
 
     }
+    
 }

@@ -13,7 +13,7 @@ namespace ParkingAPI.Dominio
         public Guid Id { get; private set; }
         public string Nome { get; private set; }
         public string Apelido { get; private set; }
-        public TipoProprietario Tipo { get; private set; }
+        public TipoPessoa Tipo { get; private set; }
         public string CpfCnpj { get; private set; }
         public string Rg { get; private set; }
         public string Cep { get; private set; }
@@ -29,13 +29,13 @@ namespace ParkingAPI.Dominio
         public int VagasContratadas { get; private set; }
         public virtual List<Placa> Placas { get; private set; }
 
-        private Proprietario()
+        public Proprietario()
         {
 
         }
 
         public Proprietario(
-            TipoProprietario tipo,
+            TipoPessoa tipo,
             string nome,
             string apelido,
             string cpfCnpj,
@@ -57,11 +57,11 @@ namespace ParkingAPI.Dominio
             if (string.IsNullOrEmpty(cpfCnpj))
                 throw new Exception("O CPF / CNPJ é obrigátório");
 
-            if (tipo == TipoProprietario.PessoaFisica && cpfCnpj.Length != 11)
+            if (tipo == TipoPessoa.PessoaFisica && cpfCnpj.Length != 11)
             {
                 throw new Exception("Para o tipo pessoa física, informe o CPF");
             }
-            else if (tipo == TipoProprietario.PessoaJuridica && cpfCnpj.Length != 14)
+            else if (tipo == TipoPessoa.PessoaJuridica && cpfCnpj.Length != 14)
             {
                 throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
             }
@@ -73,7 +73,7 @@ namespace ParkingAPI.Dominio
         }
 
         public void AtualizaInfo(
-            TipoProprietario tipo,
+            TipoPessoa tipo,
             string nome,
             string apelido,
             string cpfCnpj,
@@ -92,11 +92,11 @@ namespace ParkingAPI.Dominio
             if (string.IsNullOrEmpty(cpfCnpj))
                 throw new Exception("O CPF / CNPJ é obrigátório");
 
-            if (tipo == TipoProprietario.PessoaFisica && cpfCnpj.Length != 11)
+            if (tipo == TipoPessoa.PessoaFisica && cpfCnpj.Length != 11)
             {
                 throw new Exception("Para o tipo pessoa física, informe o CPF");
             }
-            else if (tipo == TipoProprietario.PessoaJuridica && cpfCnpj.Length != 14)
+            else if (tipo == TipoPessoa.PessoaJuridica && cpfCnpj.Length != 14)
             {
                 throw new Exception("Para o tipo pessoa jurídica, informe o CNPJ");
             }

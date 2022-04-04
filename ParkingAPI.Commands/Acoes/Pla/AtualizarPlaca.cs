@@ -25,8 +25,8 @@ namespace ParkingAPI.Commands.Acoes.Pla
                 throw new Exception("A placa do veículo é obrigátória");
             if (string.IsNullOrEmpty(DescricaoVeiculo))
                 throw new Exception("A descrição do veículo é obrigatória");
-            if (string.IsNullOrEmpty(CpfCnpjProprietario))
-                throw new Exception("O CPF/CNPJ do proprietário é obrigatório");
+   //         if (string.IsNullOrEmpty(CpfCnpjProprietario))
+    //            throw new Exception("O CPF/CNPJ do proprietário é obrigatório");
         }
     }
 }

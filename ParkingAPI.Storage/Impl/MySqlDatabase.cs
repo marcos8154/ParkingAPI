@@ -30,10 +30,14 @@ namespace ParkingAPI.Storage.Impl
             DetectServerVersion();
         }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            ENTITY_MAPPING.MAP(modelBuilder);
+        }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
-
 
 
             options.UseMySql(cfg.ConnectionString(), serverVersion)

@@ -39,8 +39,16 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                     if (pro == null)
                         throw new Exception("Proprietário não encontrado");
 
+                    bool contemPlaca = pro.Placas
+                        .Any(pl => pl.Id.Equals(cmd.PlacaVeiculo));
+                    if (pro.VagasContratadas == pro.Placas.Count)
+                        if (contemPlaca == false)
+                            throw new Exception("O número de vagas contratadas foi excedido.");
+
                     pla.DefineProprietario(pro);
                 }
+                else
+                    pla.DefineProprietario(null);
 
                 plaRepos.Update(pla);
                 return new ResultadoAcao("Placa atualizada");

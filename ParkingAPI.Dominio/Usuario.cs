@@ -34,7 +34,7 @@ namespace ParkingAPI.Dominio
             }
         }
 
-        private Usuario()
+        public Usuario()
         {
 
         }

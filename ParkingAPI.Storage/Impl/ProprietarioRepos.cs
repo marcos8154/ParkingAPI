@@ -29,7 +29,7 @@ namespace ParkingAPI.Storage.Impl
 
         public Proprietario ObterPorTipo(int tipo, string pesquisa)
         {
-            TipoProprietario tp = (TipoProprietario)tipo;
+            TipoPessoa tp = (TipoPessoa)tipo;
             return db.Proprietarios
                 .FirstOrDefault(p =>
                     p.Tipo == tp &&
@@ -59,10 +59,9 @@ namespace ParkingAPI.Storage.Impl
             db.Commit();
         }
 
-        public IReadOnlyCollection<Proprietario> Where(Expression<Func<Proprietario, bool>> query)
+        public IQueryable<Proprietario> Where(Expression<Func<Proprietario, bool>> query)
         {
-            return db.Proprietarios.Where(query)
-                .ToList();
+            return db.Proprietarios.Where(query);
         }
 
         public IReadOnlyCollection<Proprietario> Where(string sql, object param)

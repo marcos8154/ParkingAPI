@@ -13,7 +13,7 @@ namespace ParkingAPI.Storage
         void Add(TEntity e);
         void Update(TEntity e);
         void Remove(TEntity e);
-        IReadOnlyCollection<TEntity> Where(Expression<Func<TEntity, bool>> query);
+        IQueryable<TEntity> Where(Expression<Func<TEntity, bool>> query);
         IReadOnlyCollection<TEntity> Where(string sql, object param);
     }
 }
