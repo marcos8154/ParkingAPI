@@ -19,9 +19,22 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
+        [HttpPost("criarPlacaProprietario")]
+        public async Task<IResultadoAcao> CriarPlacaProprietario(CriarPlacaProprietario cmd)
+        {
+            return await cmd.Executar();
+        }
+
         [HttpPut("atualizar")]
         public async Task<IResultadoAcao> AtualizarProprietario(AtualizarProprietario cmd)
         {
+            return await cmd.Executar();
+        }
+
+        [HttpGet("buscar")]
+        public async Task<IResultadoAcao> BuscarProprietario()
+        {
+            IComandoAPI cmd = new BuscarProprietario();
             return await cmd.Executar();
         }
 
@@ -32,9 +45,10 @@ namespace ParkingAPI.Controllers
             return await cmd.Executar();
         }
 
-        [HttpGet("pesquisar")]
-        public async Task<IResultadoAcao> BuscarProprietarioPorTipo(BuscarProprietarioPorTipo cmd)
+        [HttpGet("pesquisar/{busca}")]
+        public async Task<IResultadoAcao> BuscarProprietarioPorTipo(string busca)
         {
+            IComandoAPI cmd = new BuscarProprietarioPorTipo(busca);
             return await cmd.Executar();
         }
 

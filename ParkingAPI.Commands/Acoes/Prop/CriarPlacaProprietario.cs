@@ -17,7 +17,7 @@ namespace ParkingAPI.Commands.Acoes.Prop
 
         public  async Task<IResultadoAcao> Executar()
         {
-            return await new AtualizadorProprietario().Manipular(this);
+            return await new CriadorPlacaProprietario().Manipular(this);
         }
 
         public void Valida()

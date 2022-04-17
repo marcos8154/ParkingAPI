@@ -12,6 +12,11 @@ namespace ParkingAPI.Commands.Acoes.Prop
     {
         public string Busca { get; set; }
 
+        public BuscarProprietarioPorTipo(string busca)
+        {
+            Busca = busca;
+        }
+
         public  async Task<IResultadoAcao> Executar()
         {
             return await new PesquisadorListaProprietarios().Manipular(this);

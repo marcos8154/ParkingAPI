@@ -10,5 +10,7 @@ namespace ParkingAPI.Storage
     public interface IProprietarioRepository : IRepository<Proprietario>
     {
         Proprietario ObterPorCpfCnpj(string cpfCnpj);
+
+        IReadOnlyCollection<Proprietario> Todos();
     }
 }

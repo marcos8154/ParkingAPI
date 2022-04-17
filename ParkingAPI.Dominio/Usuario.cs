@@ -55,7 +55,7 @@ namespace ParkingAPI.Dominio
                 throw new Exception("O login é obrigátório");
 
             if (string.IsNullOrEmpty(senha))
-                throw new Exception("A senha é obrigátório");
+                throw new Exception("A senha é obrigátória");
 
             AtualizaInfo(nome, login, senha); 
         }
