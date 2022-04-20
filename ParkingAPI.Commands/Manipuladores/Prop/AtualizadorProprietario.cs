@@ -29,7 +29,7 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 EnderecoDTO endereco = ObterEndereco(cmd);
 
                 pro.AtualizaInfo(
-                    tipo: cmd.Tipo,
+                    tipo: cmd.GetTipoPessoa(),
                     nome: cmd.Nome,
                     apelido: cmd.Apelido,
                     cpfCnpj: cmd.CpfCnpj,
