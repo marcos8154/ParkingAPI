@@ -1,4 +1,5 @@
-﻿using ParkingAPI.Commands.Manipuladores.Pla;
+﻿using CFIS.Misc;
+using ParkingAPI.Commands.Manipuladores.Pla;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,10 +12,10 @@ namespace ParkingAPI.Commands.Acoes.Pla
     {
         public string PlacaVeiculo { get; set; }
         public string DescricaoVeiculo { get; set; }
-        public bool PlacaPrioritaria { get; private set; }
+        public bool PlacaPrioritaria { get; set; }
         public string CpfCnpjProprietario { get; set; }
 
-        public  async Task<IResultadoAcao> Executar()
+        public async Task<IResultadoAcao> Executar()
         {
             return await new AtualizadorPlaca().Manipular(this);
         }
@@ -25,8 +26,9 @@ namespace ParkingAPI.Commands.Acoes.Pla
                 throw new Exception("A placa do veículo é obrigátória");
             if (string.IsNullOrEmpty(DescricaoVeiculo))
                 throw new Exception("A descrição do veículo é obrigatória");
-   //         if (string.IsNullOrEmpty(CpfCnpjProprietario))
-    //            throw new Exception("O CPF/CNPJ do proprietário é obrigatório");
+            if (!string.IsNullOrEmpty(CpfCnpjProprietario))
+                if (!CpfCnpjProprietario.IsCpf() && !CpfCnpjProprietario.IsCnpj())
+                    throw new Exception($"O CNPJ/CPF '{CpfCnpjProprietario}' é inválido");
         }
     }
 }

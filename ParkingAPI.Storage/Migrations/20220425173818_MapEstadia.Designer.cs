@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkingAPI.Storage.Impl;
 
 namespace ParkingAPI.Storage.Migrations
 {
     [DbContext(typeof(MySqlDatabase))]
-    partial class MySqlDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220425173818_MapEstadia")]
+    partial class MapEstadia
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

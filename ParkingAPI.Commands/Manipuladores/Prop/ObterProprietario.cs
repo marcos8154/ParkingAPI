@@ -29,7 +29,10 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 List<Proprietario> proprietarios = propRepos.Where(p =>
                         p.CpfCnpj.Length>0).ToList();
 
-                return new ResultadoAcao(proprietarios);
+                List<ProprietarioViewModel> vms = new List<ProprietarioViewModel>();
+                proprietarios.ForEach(p => vms.Add(new ProprietarioViewModel(p)));
+
+                return new ResultadoAcao(vms);
             }
             catch (Exception ex)
             {

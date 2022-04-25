@@ -26,7 +26,7 @@ namespace ParkingAPI.Controllers
         }
 
         [HttpGet("buscar")]
-        public async Task<IResultadoAcao> BuscarEstadiasAbertas([FromBody] BuscarEstadias cmd)
+        public async Task<IResultadoAcao> BuscarEstadiasAbertas([FromQuery] BuscarEstadias cmd)
         {
             return await cmd.Executar();
         }

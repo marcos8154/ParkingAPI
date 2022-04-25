@@ -26,20 +26,30 @@ namespace ParkingAPI.Dominio
 
         }
 
+        private void GeraCodigoCobranca()
+        {
+            string[] arrayGuid = Id.ToString().Split('-');
+            string codigo = "";
+            for (int i = 0; i < arrayGuid.Length; i++)
+            {
+                string primeiros2 = arrayGuid[i].Substring(0, 2);
+                codigo += primeiros2;
+            }
+            CodigoCobranca = codigo.ToUpper();
+        }
+
         public Cobranca(Placa placa, decimal valor, string descricao,
-            Estadia estadia = null)
+            Estadia estadia)
         {
             Id = Guid.NewGuid();
 
-            string[] arrayGuid = Id.ToString().Split('-');
-            string ultimoBlocoGuid = arrayGuid[arrayGuid.Length - 1];
-            CodigoCobranca = ultimoBlocoGuid.ToUpper();
+            GeraCodigoCobranca();
 
             PlacaId = placa.Id;
             DataHora = DateTime.Now;
             Valor = valor;
             Descricao = descricao;
-            EstadiaId = estadia == null ? null : estadia.Id;
+            EstadiaId = estadia.Id;
         }
 
         public void DefinirPago()

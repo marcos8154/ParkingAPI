@@ -16,6 +16,8 @@ namespace ParkingAPI.Commands.Manipuladores.Cobr
         {
             try
             {
+                cmd.Valida();
+
                 IEstadiaRepository estRepos = ObterInstanciaRepos<IEstadiaRepository>();
                 ICobrancaRepository cobrRepos = ObterInstanciaRepos<ICobrancaRepository>();
                 Cobranca cobranca = cobrRepos

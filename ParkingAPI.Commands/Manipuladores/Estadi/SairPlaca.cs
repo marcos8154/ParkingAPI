@@ -35,7 +35,7 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
                 Cobranca cob = esta.Saida();
                 cobRepos.Add(cob);
 
-                CobrancaViewModel saida = new CobrancaViewModel( cob);
+                CobrancaViewModel saida = new CobrancaViewModel(cob, esta);
 
                 estaRepos.Update(esta);
 

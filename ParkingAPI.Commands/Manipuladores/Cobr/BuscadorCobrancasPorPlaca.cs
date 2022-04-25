@@ -18,7 +18,6 @@ namespace ParkingAPI.Commands.Manipuladores.Cobr
             {
                 cmd.Valida();
                 ICobrancaRepository cRepos = ObterInstanciaRepos<ICobrancaRepository>();
-                IEstadiaRepository estRepos = ObterInstanciaRepos<IEstadiaRepository>();
                 IQueryable<Cobranca> query = null;
 
                 if (cmd.TodoOPeriodo)
@@ -43,7 +42,7 @@ namespace ParkingAPI.Commands.Manipuladores.Cobr
 
                 List<Cobranca> cobrancas = query.ToList();
                 List<CobrancaViewModel> vms = new List<CobrancaViewModel>();
-                cobrancas.ForEach(c => vms.Add(new CobrancaViewModel(c)));
+                cobrancas.ForEach(c => vms.Add(new CobrancaViewModel(c, c.Estadia)));
 
                 return new ResultadoAcao($"{vms.Count} cobranças encontradas", vms);
             }

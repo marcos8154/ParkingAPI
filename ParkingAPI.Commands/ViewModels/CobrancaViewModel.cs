@@ -22,10 +22,20 @@ namespace ParkingAPI.Commands.ViewModels
         public string TempoConsumo { get; set; }
         public string Pago { get; set; }
         public string DataPagamento { get; set; }
+        public decimal Valor { get; set; }
 
         public CobrancaViewModel(Cobranca cobranca)
         {
-            Estadia estadia = cobranca.Estadia;
+            Fill(cobranca, cobranca.Estadia);
+        }
+
+        public CobrancaViewModel(Cobranca cobranca, Estadia estadia)
+        {
+            Fill(cobranca, estadia);
+        }
+
+        private void Fill(Cobranca cobranca, Estadia estadia)
+        {
             Placa placa = estadia.Placa;
             Proprietario proprietario = placa.Proprietario;
             Estacionamento estacionamento = estadia.Estacionamento;
@@ -33,6 +43,7 @@ namespace ParkingAPI.Commands.ViewModels
             DataEntradaVeiculo = estadia.DataEntrada;
             DataSaidaVeiculo = estadia.DataSaida.Value;
 
+            Valor = cobranca.Valor;
             TempoConsumo = estadia.TempoConsumo;
             CodigoCobranca = cobranca.CodigoCobranca;
             DataEmissao = cobranca.DataHora;
@@ -42,6 +53,15 @@ namespace ParkingAPI.Commands.ViewModels
             Pago = cobranca.Pago ? "SIM" : "NÃO";
             DataPagamento = cobranca.Pago ? cobranca.DataPagamento.Value.ToString("dd/MM/yyyy HH:mm") : string.Empty;
 
+            string codigoFormatado = "";
+
+            for (int i = 0; i < CodigoCobranca.Length; i += 2)
+            {
+                codigoFormatado += $"{CodigoCobranca[i]}{CodigoCobranca[i + 1]} ";
+            }
+
+            CodigoCobranca = codigoFormatado.Substring(0, codigoFormatado.Length - 1);
+
             if (proprietario == null)
                 Proprietario = "SEM PROPRIETÁRIO VINCULADO";
             else
@@ -49,7 +69,7 @@ namespace ParkingAPI.Commands.ViewModels
                 string cpfMascarado = string.Empty;
                 for (int i = 0; i < proprietario.CpfCnpj.Length; i++)
                 {
-                    if (i < 6) cpfMascarado += "*";
+                    if (i >= 3 && i <= 8) cpfMascarado += "*";
                     else cpfMascarado += proprietario.CpfCnpj[i];
                 }
                 Proprietario = $"{proprietario.Nome} - {cpfMascarado}";

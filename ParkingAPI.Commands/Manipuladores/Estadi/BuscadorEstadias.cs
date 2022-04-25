@@ -1,5 +1,6 @@
 ﻿using IoCdotNet;
 using ParkingAPI.Commands.Acoes.Estadi;
+using ParkingAPI.Commands.ViewModels;
 using ParkingAPI.Dominio;
 using ParkingAPI.Storage;
 using System;
@@ -22,13 +23,16 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
         {
             try
             {
-                IReadOnlyCollection<Estadia> est = estaRepos.Where(e => 
+                List<Estadia> est = estaRepos.Where(e => 
                     e.Estacionamento.CNPJ.Contains(cmd.CNPJEstacionamento) &&
                     e.PlacaId.Contains(cmd.PlacaVeiculo) && 
                     (cmd.ApenasEmAberto ? e.Encerrado() == false : e.Id != Guid.Empty))
                     .ToList();
 
-                return new ResultadoAcao(est);
+                List<EstadiaViewModel> vms = new List<EstadiaViewModel>();
+                est.ForEach(e => vms.Add(new EstadiaViewModel(e)));
+
+                return new ResultadoAcao(vms);
             }
             catch (Exception ex)
             {

@@ -13,6 +13,32 @@ namespace ParkingAPI.Storage.Impl
         public static void MAP(ModelBuilder mb)
         {
             MapCobranca(mb);
+            MapEstadia(mb);
+        }
+
+        private static void MapEstadia(ModelBuilder mb)
+        {
+            var em = mb.Entity<Estadia>();
+            em.HasKey(e => e.Id);
+            em.Property(e => e.Id)
+                .IsRequired(true);
+            em.HasOne(e => e.Placa);
+            em.HasOne(e => e.Estacionamento);
+            em.Property(e => e.EstacionamentoId)
+                .IsRequired(true);
+            em.Property(e => e.PlacaId)
+                .IsRequired(true);
+            em.Property(e => e.DataEntrada)
+                .IsRequired(true);
+            em.Property(e => e.DataSaida)
+                .IsRequired(false);
+            em.Property(e => e.Observacao)
+                            .IsRequired(false)
+                            .HasMaxLength(250);
+            em.Property(e => e.TempoConsumo)
+                .IsRequired(false)
+                .HasMaxLength(60)
+                .HasDefaultValue(string.Empty);
         }
 
         private static void MapCobranca(ModelBuilder mb)

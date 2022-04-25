@@ -33,6 +33,8 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                     prioritaria: cmd.PlacaPrioritaria
                 );
 
+                string nomeProp = null;
+
                 if (!string.IsNullOrEmpty(cmd.CpfCnpjProprietario))
                 {
                     Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpjProprietario);
@@ -46,12 +48,18 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                             throw new Exception("O número de vagas contratadas foi excedido.");
 
                     pla.DefineProprietario(pro);
+                    nomeProp = pro.Nome;
                 }
                 else
                     pla.DefineProprietario(null);
 
                 plaRepos.Update(pla);
-                return new ResultadoAcao("Placa atualizada");
+
+                string strRetorno = (nomeProp == null
+                    ? "Placa atualizada"
+                    : $"Placa atualizada e vinculada ao proprietário '{nomeProp}'");
+
+                return new ResultadoAcao(strRetorno);
             }
             catch (Exception ex)
             {

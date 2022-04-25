@@ -7,23 +7,18 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Commands.Acoes.Cobr
 {
-    public class ConsultarCobranca : IComandoAPI
+    public class EfetuarPagamentoCobranca : IComandoAPI
     {
-        public ConsultarCobranca(string codigoCobranca)
-        {
-            CodigoCobranca = codigoCobranca;
-        }
-
         public string CodigoCobranca { get; set; }
 
         public async Task<IResultadoAcao> Executar()
         {
-            return await new ConsultaCobranca().Manipular(this);
+            return await new PagamentoCobranca().Manipular(this);
         }
 
         public void Valida()
         {
-            if (string.IsNullOrEmpty(CodigoCobranca)) 
+            if (string.IsNullOrEmpty(CodigoCobranca))
                 throw new Exception("O código da cobrança deve ser informado");
 
             if (CodigoCobranca.Contains(" "))

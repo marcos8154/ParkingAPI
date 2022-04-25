@@ -25,5 +25,11 @@ namespace ParkingAPI.Controllers
         {
             return await consulta.Executar();
         }
+
+        [HttpPut("pagamentoCobranca")]
+        public async Task<IResultadoAcao> Pagamento([FromBody] EfetuarPagamentoCobranca cmd)
+        {
+            return await cmd.Executar();
+        }
     }
 }
