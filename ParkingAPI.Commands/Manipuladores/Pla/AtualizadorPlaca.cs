@@ -13,11 +13,9 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
     internal sealed class AtualizadorPlaca : ManipuladorComando<AtualizarPlaca>
     {
         private readonly IPlacaRepository plaRepos;
-        private readonly IProprietarioRepository propRepos;
         public AtualizadorPlaca()
         {
             plaRepos = IoC.Resolve<IPlacaRepository>();
-            propRepos = IoC.Resolve<IProprietarioRepository>();
         }
 
         protected override ResultadoAcao ManipulaComando(AtualizarPlaca cmd)
@@ -33,33 +31,9 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
                     prioritaria: cmd.PlacaPrioritaria
                 );
 
-                string nomeProp = null;
-
-                if (!string.IsNullOrEmpty(cmd.CpfCnpjProprietario))
-                {
-                    Proprietario pro = propRepos.ObterPorCpfCnpj(cpfCnpj: cmd.CpfCnpjProprietario);
-                    if (pro == null)
-                        throw new Exception("Proprietário não encontrado");
-
-                    bool contemPlaca = pro.Placas
-                        .Any(pl => pl.Id.Equals(cmd.PlacaVeiculo));
-                    if (pro.VagasContratadas == pro.Placas.Count)
-                        if (contemPlaca == false)
-                            throw new Exception("O número de vagas contratadas foi excedido.");
-
-                    pla.DefineProprietario(pro);
-                    nomeProp = pro.Nome;
-                }
-                else
-                    pla.DefineProprietario(null);
-
                 plaRepos.Update(pla);
 
-                string strRetorno = (nomeProp == null
-                    ? "Placa atualizada"
-                    : $"Placa atualizada e vinculada ao proprietário '{nomeProp}'");
-
-                return new ResultadoAcao(strRetorno);
+                return new ResultadoAcao("Placa atualizada");
             }
             catch (Exception ex)
             {

@@ -13,7 +13,6 @@ namespace ParkingAPI.Commands.Acoes.Pla
         public string PlacaVeiculo { get; set; }
         public string DescricaoVeiculo { get; set; }
         public bool PlacaPrioritaria { get; set; }
-        public string CpfCnpjProprietario { get; set; }
 
         public async Task<IResultadoAcao> Executar()
         {
@@ -24,11 +23,6 @@ namespace ParkingAPI.Commands.Acoes.Pla
         {
             if (string.IsNullOrEmpty(PlacaVeiculo))
                 throw new Exception("A placa do veículo é obrigátória");
-            if (string.IsNullOrEmpty(DescricaoVeiculo))
-                throw new Exception("A descrição do veículo é obrigatória");
-            if (!string.IsNullOrEmpty(CpfCnpjProprietario))
-                if (!CpfCnpjProprietario.IsCpf() && !CpfCnpjProprietario.IsCnpj())
-                    throw new Exception($"O CNPJ/CPF '{CpfCnpjProprietario}' é inválido");
         }
     }
 }
