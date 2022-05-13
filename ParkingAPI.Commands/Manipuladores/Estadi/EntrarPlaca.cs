@@ -55,11 +55,17 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
 
         private TipoEstadia ObterTipoEstadia(Placa placaEntrando)
         {
-            if (placaEntrando.IsPlacaRotativa()) return TipoEstadia.Rotativa;
+            if (placaEntrando.IsPlacaRotativa()) 
+                return TipoEstadia.Rotativa;
+
             Proprietario donoPlaca = placaEntrando.Proprietario;
             bool possuiDisponibilidade = estaRepos.PossuiDisponibilidade(donoPlaca);
 
-            if (possuiDisponibilidade && placaEntrando.PlacaPrioritaria)
+            if (possuiDisponibilidade)
+            {
+                return TipoEstadia.Mensalista;
+            }
+            else if (placaEntrando.PlacaPrioritaria)
             {
                 Estadia naoPrioritaria = estaRepos.ObterEstadiaPlacaNaoPrioritaria(donoPlaca);
                 if (naoPrioritaria == null)
