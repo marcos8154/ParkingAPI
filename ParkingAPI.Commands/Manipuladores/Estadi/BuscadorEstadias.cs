@@ -26,7 +26,7 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
                 List<Estadia> est = estaRepos.Where(e => 
                     e.Estacionamento.CNPJ.Contains(cmd.CNPJEstacionamento) &&
                     e.PlacaId.Contains(cmd.PlacaVeiculo) && 
-                    (cmd.ApenasEmAberto ? e.Encerrado() == false : e.Id != Guid.Empty))
+                    (cmd.ApenasEmAberto ? e.DataSaida == null : e.Id != Guid.Empty))
                     .ToList();
 
                 List<EstadiaViewModel> vms = new List<EstadiaViewModel>();

@@ -33,8 +33,11 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
                 cmd.Valida();
                 Estacionamento est = BuscaEstacionamento(cmd);
                 Placa pla = BuscaOuCadastraPlaca(cmd);
-
                 TipoEstadia tipo = ObterTipoEstadia(pla);
+
+                Estadia atualAberta = estaRepos.ObterEstadiaAbertaPorPlaca(pla.Id);
+                if (atualAberta != null)
+                    throw new Exception($"Já existe uma estadia aberta para a placa '{pla.Id}'");
 
                 Estadia esta = new Estadia(
                     estacionamento: est,
