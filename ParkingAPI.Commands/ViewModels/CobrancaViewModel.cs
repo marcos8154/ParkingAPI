@@ -12,8 +12,8 @@ namespace ParkingAPI.Commands.ViewModels
         public string CodigoCobranca { get; set; }
         public DateTime DataEmissao { get; set; }
 
-        public DateTime DataEntradaVeiculo { get; set; }
-        public DateTime DataSaidaVeiculo { get; set; }
+        public String DataEntradaVeiculo { get; set; }
+        public String DataSaidaVeiculo { get; set; }
 
         public string Placa { get; set; }
         public string Veiculo { get; set; }
@@ -40,8 +40,8 @@ namespace ParkingAPI.Commands.ViewModels
             Proprietario proprietario = placa.Proprietario;
             Estacionamento estacionamento = estadia.Estacionamento;
 
-            DataEntradaVeiculo = estadia.DataEntrada;
-            DataSaidaVeiculo = estadia.DataSaida.Value;
+            DataEntradaVeiculo = estadia.DataEntrada.ToString("dd/MM/yyyy HH:mm");
+            DataSaidaVeiculo = estadia.DataSaida.Value.ToString("dd/MM/yyyy HH:mm");
 
             Valor = cobranca.Valor;
             TempoConsumo = estadia.TempoConsumo;
