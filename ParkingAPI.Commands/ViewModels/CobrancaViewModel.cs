@@ -1,4 +1,5 @@
 ﻿using ParkingAPI.Dominio;
+using ParkingAPI.Dominio.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,8 +13,10 @@ namespace ParkingAPI.Commands.ViewModels
         public string CodigoCobranca { get; set; }
         public DateTime DataEmissao { get; set; }
 
-        public String DataEntradaVeiculo { get; set; }
-        public String DataSaidaVeiculo { get; set; }
+        public string DataEntradaVeiculo { get; set; }
+        public string DataSaidaVeiculo { get; set; }
+
+        public string ModalidadeEstadia { get; set; }
 
         public string Placa { get; set; }
         public string Veiculo { get; set; }
@@ -42,7 +45,7 @@ namespace ParkingAPI.Commands.ViewModels
 
             DataEntradaVeiculo = estadia.DataEntrada.ToString("dd/MM/yyyy HH:mm");
             DataSaidaVeiculo = estadia.DataSaida.Value.ToString("dd/MM/yyyy HH:mm");
-
+            ModalidadeEstadia = estadia.Tipo == TipoEstadia.Mensalista ? "MENSALISTA" : "ROTATIVO";
             Valor = cobranca.Valor;
             TempoConsumo = estadia.TempoConsumo;
             CodigoCobranca = cobranca.CodigoCobranca;

@@ -26,14 +26,13 @@ namespace ParkingAPI.Commands.Manipuladores.Pla
 
                 Placa pla = plaRepos.Find(id: cmd.PlacaVeiculo);
                 pla.AtualizaInfo(
-                    id: cmd.PlacaVeiculo,
                     descricaoVeiculo: cmd.DescricaoVeiculo,
                     prioritaria: cmd.PlacaPrioritaria
                 );
 
                 plaRepos.Update(pla);
 
-                return new ResultadoAcao("Placa atualizada");
+                return new ResultadoAcao($"Placa '{pla.Id}' atualizada");
             }
             catch (Exception ex)
             {

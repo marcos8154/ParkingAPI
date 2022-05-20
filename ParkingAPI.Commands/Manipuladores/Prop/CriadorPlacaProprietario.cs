@@ -32,7 +32,7 @@ namespace ParkingAPI.Commands.Manipuladores.Prop
                 Placa pla = new Placa(
                     codigoPlaca: cmd.placa,
                     descricaoVeiculo: cmd.descricaoVeiculo,
-                    padrao: cmd.padrao
+                    prioritaria: cmd.padrao
                 );
 
                 pla.DefineProprietario(pro);

@@ -8,18 +8,14 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Commands.Acoes.Pla
 {
-    public class AtualizarPlaca : IComandoAPI
+    public class AtualizarPlaca : CriarPlaca
     {
-        public string PlacaVeiculo { get; set; }
-        public string DescricaoVeiculo { get; set; }
-        public bool PlacaPrioritaria { get; set; }
-
-        public async Task<IResultadoAcao> Executar()
+        public new async Task<IResultadoAcao> Executar()
         {
             return await new AtualizadorPlaca().Manipular(this);
         }
 
-        public void Valida()
+        public new void Valida()
         {
             if (string.IsNullOrEmpty(PlacaVeiculo))
                 throw new Exception("A placa do veículo é obrigátória");

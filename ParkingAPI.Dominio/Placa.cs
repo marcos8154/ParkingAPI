@@ -28,6 +28,7 @@ namespace ParkingAPI.Dominio
         /// A placa substituida deverá passar para o rotativo
         /// </summary>
         public bool PlacaPrioritaria { get; private set; }
+        public bool PlacaAutorizada { get; private set; }
 
         public Guid? ProprietarioId { get; private set; }
         public virtual Proprietario Proprietario { get; private set; }
@@ -37,12 +38,13 @@ namespace ParkingAPI.Dominio
             return ProprietarioId == null;
         }
 
-        public Placa(string codigoPlaca, string descricaoVeiculo = "", bool padrao = false)
+        public Placa(string codigoPlaca, string descricaoVeiculo = "", bool prioritaria = false)
         {
             if (string.IsNullOrEmpty(codigoPlaca))
                 throw new Exception("A placa do veículo é obrigátória");
 
-            AtualizaInfo(codigoPlaca, descricaoVeiculo, padrao);
+            Id = codigoPlaca;
+            AtualizaInfo(descricaoVeiculo, prioritaria);
         }
 
         public Placa()
@@ -50,15 +52,18 @@ namespace ParkingAPI.Dominio
 
         }
 
-
-        public void AtualizaInfo(string id, string descricaoVeiculo, bool prioritaria)
+        public Placa DefineAutorizada(bool autorizada)
         {
-            if (string.IsNullOrEmpty(id))
-                throw new Exception("A placa do veículo é obrigátória");
+            PlacaAutorizada = autorizada;
+            return this;
+        }
 
-            Id = id;
+
+        public Placa AtualizaInfo(string descricaoVeiculo, bool prioritaria)
+        {
             DescricaoVeiculo = descricaoVeiculo;
             PlacaPrioritaria = prioritaria;
+            return this;
         }
 
         /// <summary>
@@ -70,10 +75,11 @@ namespace ParkingAPI.Dominio
         /// e vincular a placa ao proprietario
         /// </summary>
         /// <param name="proprietario"></param>
-        public void DefineProprietario(Proprietario proprietario)
+        public Placa DefineProprietario(Proprietario proprietario)
         {
             if (proprietario == null) ProprietarioId = null;
             else ProprietarioId = proprietario.Id;
+            return this;
         }
     }
 }

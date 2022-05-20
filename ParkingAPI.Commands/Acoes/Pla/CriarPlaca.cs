@@ -9,8 +9,11 @@ namespace ParkingAPI.Commands.Acoes.Pla
 {
     public class CriarPlaca : IComandoAPI
     {
-        public string placa { get; set; }
-        public string descricaoVeiculo { get; set; }
+        public string PlacaVeiculo { get; set; }
+        public string DescricaoVeiculo { get; set; }
+        public bool PlacaPrioritaria { get; set; }
+        public bool PlacaAutorizada { get; set; }
+        public string CpfCnpjProprietario { get; set; }
 
         public async Task<IResultadoAcao> Executar()
         {
@@ -19,7 +22,7 @@ namespace ParkingAPI.Commands.Acoes.Pla
 
         public void Valida()
         {
-            if (string.IsNullOrEmpty(placa))
+            if (string.IsNullOrEmpty(PlacaVeiculo))
                 throw new Exception("A placa do veículo é obrigátória");
         }
     }
