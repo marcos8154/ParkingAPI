@@ -12,6 +12,9 @@ namespace ParkingAPI.Commands.ViewModels
     {
         public EstadiaViewModel(Estadia e)
         {
+            Placa placa = e.Placa;
+            Proprietario proprietario = placa.Proprietario;
+
             DataEntrada = e.DataEntrada;
             DataSaida = e.DataSaida;
             TempoConsumo = e.TempoConsumo;
@@ -19,19 +22,21 @@ namespace ParkingAPI.Commands.ViewModels
                 ? "MENSALISTA"
                 : "ROTATIVO");
             Observacao = e.Observacao;
-
-            Placa placa = e.Placa;
-            Proprietario proprietario = placa.Proprietario;
+            Veiculo = $"{placa.Id} - {placa.DescricaoVeiculo}";
 
             string cpfMascarado = string.Empty;
-            for (int i = 0; i < proprietario.CpfCnpj.Length; i++)
-            {
-                if (i >= 3 && i <= 8) cpfMascarado += "*";
-                else cpfMascarado += proprietario.CpfCnpj[i];
-            }
 
-            Veiculo = $"{placa.Id} - {placa.DescricaoVeiculo}";
-            Proprietario = $"{proprietario.Nome} - {cpfMascarado}";
+            if (proprietario != null)
+            {
+                for (int i = 0; i < proprietario.CpfCnpj.Length; i++)
+                {
+                    if (i >= 3 && i <= 8) cpfMascarado += "*";
+                    else cpfMascarado += proprietario.CpfCnpj[i];
+                }
+
+
+                Proprietario = $"{proprietario.Nome} - {cpfMascarado}";
+            }
         }
 
         public DateTime DataEntrada { get; set; }

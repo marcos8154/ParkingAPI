@@ -67,21 +67,21 @@ namespace ParkingAPI.Dominio
             if (Estacionamento == null) return null;
             if (!string.IsNullOrEmpty(obs)) Observacao = obs;
 
-            DataEntrada = DateTime.Now.AddMinutes(-12.5);
+            //         DataEntrada = DateTime.Now.AddMinutes(-12.5);
             DataSaida = DateTime.Now;
             TimeSpan ts = ((DateTime)DataSaida - DataEntrada);
             TempoConsumo = $"{(int)ts.TotalHours} horas e {(int)ts.TotalMinutes} minutos";
 
             Cobranca cobrancaEstacionamento;
-            if (Tipo == TipoEstadia.Mensalista)
+            if (Tipo == TipoEstadia.Mensalista || Placa.PlacaAutorizada)
             {
                 //se estadia for de mensalista, gera cobrança com valor zerado
-                cobrancaEstacionamento = new Cobranca(Placa, 0, $"Estadia de '{PlacaId}' (mensalista) por {TempoConsumo}", this);
+                cobrancaEstacionamento = new Cobranca(Placa, 0, $"Estadia da placa '{PlacaId}' ({(Placa.PlacaAutorizada ? "autorizada" : "mensalista")}) por {TempoConsumo}", this);
             }
             else
             {
                 decimal valor = Estacionamento.CalculaValorEstadia(this);
-                cobrancaEstacionamento = new Cobranca(Placa, valor, $"Estadia de '{PlacaId}' por {TempoConsumo}", this);
+                cobrancaEstacionamento = new Cobranca(Placa, valor, $"Estadia da placa '{PlacaId}' por {TempoConsumo}", this);
             }
 
             return cobrancaEstacionamento;

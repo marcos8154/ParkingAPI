@@ -23,16 +23,18 @@ namespace ParkingAPI.Commands.Manipuladores.Estadi
         {
             try
             {
-                List<Estadia> est = estaRepos.Where(e => 
+                List<Estadia> est = estaRepos.Where(e =>
                     e.Estacionamento.CNPJ.Contains(cmd.CNPJEstacionamento) &&
-                    e.PlacaId.Contains(cmd.PlacaVeiculo) && 
-                    (cmd.ApenasEmAberto ? e.Encerrado() == false : e.Id != Guid.Empty))
-                    .ToList();
+                    e.PlacaId.Contains(cmd.PlacaVeiculo ?? "") &&
+                    (cmd.ApenasEmAberto
+                        ? e.DataSaida == null
+                        : e.Id != Guid.Empty
+                    )).ToList();
 
                 List<EstadiaViewModel> vms = new List<EstadiaViewModel>();
                 est.ForEach(e => vms.Add(new EstadiaViewModel(e)));
 
-                return new ResultadoAcao(vms);
+                return new ResultadoAcao($"{vms.Count} estadia{(vms.Count > 1 ? "s" : "")} encontradas", vms);
             }
             catch (Exception ex)
             {
