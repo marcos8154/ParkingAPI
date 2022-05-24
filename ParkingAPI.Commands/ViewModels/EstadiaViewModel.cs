@@ -15,14 +15,15 @@ namespace ParkingAPI.Commands.ViewModels
             Placa placa = e.Placa;
             Proprietario proprietario = placa.Proprietario;
 
-            DataEntrada = e.DataEntrada;
+            DataEntrada = e.DataEntrada.ToString("dd/MM/yyyy HH:mm");
             DataSaida = e.DataSaida;
             TempoConsumo = e.TempoConsumo;
             Tipo = (e.Tipo == TipoEstadia.Mensalista
                 ? "MENSALISTA"
                 : "ROTATIVO");
             Observacao = e.Observacao;
-            Veiculo = $"{placa.Id} - {placa.DescricaoVeiculo}";
+            //Veiculo = $"{placa.Id} - {placa.DescricaoVeiculo}";
+            Veiculo = $"{placa.Id}".ToUpper();
 
             string cpfMascarado = string.Empty;
 
@@ -39,7 +40,7 @@ namespace ParkingAPI.Commands.ViewModels
             }
         }
 
-        public DateTime DataEntrada { get; set; }
+        public string DataEntrada { get; set; }
         public DateTime? DataSaida { get; set; }
         public string TempoConsumo { get; set; }
         //MENSALISTA / ROTATIVA
