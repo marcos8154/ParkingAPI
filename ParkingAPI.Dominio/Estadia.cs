@@ -90,7 +90,15 @@ namespace ParkingAPI.Dominio
             //         DataEntrada = DateTime.Now.AddMinutes(-12.5);
             DataSaida = DateTime.Now;
             TimeSpan ts = ((DateTime)DataSaida - DataEntrada);
-            TempoConsumo = $"{(int)ts.TotalHours} horas e {(int)ts.TotalMinutes} minutos";
+
+            if ((int)ts.TotalHours == 0)
+            {
+                TempoConsumo = $"{(int)ts.TotalMinutes} minutos";
+            } else
+            {
+                int min = (int)ts.TotalMinutes - (60 * (int)ts.TotalHours);
+                TempoConsumo = $"{(int)ts.TotalHours} horas e {min} minutos";
+            }
 
             Cobranca cobrancaEstacionamento;
             if (Tipo == TipoEstadia.Mensalista || Placa.PlacaAutorizada)
