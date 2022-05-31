@@ -15,5 +15,6 @@ namespace ParkingAPI.Storage
         IReadOnlyCollection<Estadia> ObterEstadiaPorEstacionamento(string cnpj_estacionamento);
         bool PossuiDisponibilidade(Proprietario donoPlaca);
         Estadia ObterEstadiaPlacaNaoPrioritaria(Proprietario donoPlaca);
+        List<Estadia> BuscarEstadias(string cNPJEstacionamento, string placaVeiculo, bool apenasEmAberto);
     }
 }

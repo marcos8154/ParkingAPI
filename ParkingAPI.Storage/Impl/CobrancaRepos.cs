@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using IoCdotNet;
+using Microsoft.EntityFrameworkCore;
 using ParkingAPI.Dominio;
 using System;
 using System.Collections.Generic;
@@ -33,6 +34,13 @@ namespace ParkingAPI.Storage.Impl
 
         public void Update(Cobranca e)
         {
+            foreach (PagamentoEstadia pag in e.Pagamentos)
+            {
+                if (db.Pagamentos.Find(pag.Id) == null)
+                    db.Pagamentos.Add(pag);
+            }
+
+
             db.Cobrancas.Update(e);
             db.Commit();
         }
@@ -52,6 +60,18 @@ namespace ParkingAPI.Storage.Impl
         {
             using (IDbConnection conn = db.GetDbConnection())
                 return conn.Query<Cobranca>(sql, param).ToList();
+        }
+
+        public Cobranca ObterPorCodigo(string codigoCobranca)
+        {
+            return db.Cobrancas
+                 .Include(c => c.Estadia)
+                 .Include(c => c.Placa)
+                     .ThenInclude(p => p.Proprietario)
+                 .Include(c => c.Pagamentos)
+                    .ThenInclude(p => p.Cobranca)
+                 .FirstOrDefault(c => c.CodigoCobranca.Equals(codigoCobranca));
+
         }
     }
 }

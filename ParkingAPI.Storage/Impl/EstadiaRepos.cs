@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using IoCdotNet;
+using Microsoft.EntityFrameworkCore;
 using ParkingAPI.Dominio;
 using ParkingAPI.Dominio.Enum;
 using System;
@@ -98,6 +99,23 @@ namespace ParkingAPI.Storage.Impl
             return db.Estadias
                  .Where(e => e.Placa.PlacaPrioritaria == false && donoPlaca.Id.Equals(e.Placa.ProprietarioId))
                  .FirstOrDefault();
+        }
+
+        public List<Estadia> BuscarEstadias(string cNPJEstacionamento,
+            string placaVeiculo, bool apenasEmAberto)
+        {
+           return db.Estadias
+                .Include(e => e.Estacionamento)
+                .Include(e => e.Placa)
+                   .ThenInclude(p => p.Proprietario)
+                .Where(e =>
+                    e.Estacionamento.CNPJ.Contains(cNPJEstacionamento) &&
+                    e.PlacaId.Contains(placaVeiculo ?? "") &&
+                    (apenasEmAberto
+                        ? e.DataSaida == null
+                        : e.Id != Guid.Empty
+                    ))
+                    .ToList();
         }
     }
 }

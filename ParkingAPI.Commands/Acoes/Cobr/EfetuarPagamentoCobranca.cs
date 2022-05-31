@@ -1,4 +1,5 @@
 ﻿using ParkingAPI.Commands.Manipuladores.Cobr;
+using ParkingAPI.Commands.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,8 @@ namespace ParkingAPI.Commands.Acoes.Cobr
     public class EfetuarPagamentoCobranca : IComandoAPI
     {
         public string CodigoCobranca { get; set; }
+
+        public List<PagamentoInputModel> Pagamentos { get; set; }
 
         public async Task<IResultadoAcao> Executar()
         {

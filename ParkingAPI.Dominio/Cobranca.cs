@@ -21,9 +21,27 @@ namespace ParkingAPI.Dominio
         public virtual Placa Placa { get; private set; }
         public virtual Estadia Estadia { get; private set; }
 
+        public virtual List<PagamentoEstadia> Pagamentos { get; private set; }
+
         public Cobranca()
         {
+            Pagamentos = new List<PagamentoEstadia>();
+        }
 
+        public void AdicionaPagamento(FormaPagamento fpg, decimal valor)
+        {
+            if (Pago) throw new Exception("Pagamentos já efetuados para esta estadia");
+
+            Pagamentos.Add(new PagamentoEstadia(this, fpg, valor));
+
+            if (Pagamentos.Sum(p => p.ValorPagamento) == Valor)
+                DefinirPago();
+        }
+
+        private void DefinirPago()
+        {
+            Pago = true;
+            DataPagamento = DateTime.Now;
         }
 
         private void GeraCodigoCobranca()
@@ -41,6 +59,7 @@ namespace ParkingAPI.Dominio
         public Cobranca(Placa placa, decimal valor, string descricao,
             Estadia estadia)
         {
+            Pagamentos = new List<PagamentoEstadia>();
             Id = Guid.NewGuid();
 
             GeraCodigoCobranca();
@@ -52,10 +71,6 @@ namespace ParkingAPI.Dominio
             EstadiaId = estadia.Id;
         }
 
-        public void DefinirPago()
-        {
-            Pago = true;
-            DataPagamento = DateTime.Now;
-        }
+   
     }
 }

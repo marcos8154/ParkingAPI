@@ -19,7 +19,10 @@ namespace ParkingAPI.Storage.Impl
         public DbSet<Placa> Placas { get; set; }
         public DbSet<Proprietario> Proprietarios { get; set; }
         public DbSet<Cobranca> Cobrancas { get; set; }
+        public DbSet<PagamentoEstadia> Pagamentos { get; set; }
         public DbSet<Usuario> Usuarios { get; set; }
+        public DbSet<FormaPagamento> FormasPagamento { get; set; }
+
 
         private readonly IDatabaseConfig cfg;
         private static ServerVersion serverVersion;

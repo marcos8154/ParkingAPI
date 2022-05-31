@@ -12,7 +12,27 @@ namespace ParkingAPI.Dominio
         public Guid Id { get; private set; }
         public DateTime DataEntrada { get; private set; }
         public DateTime? DataSaida { get; private set; }
-        public string TempoConsumo { get; private set; }
+
+        private string tempoConsumo;
+
+        public string TempoConsumo
+        {
+            get
+            {
+
+                if (DataSaida == null)
+                {
+                    TimeSpan ts = (DateTime.Now - DataEntrada);
+                    return $"{(int)ts.TotalHours} horas e {(int)ts.TotalMinutes} minutos";
+                }
+
+                return tempoConsumo;
+            }
+            set
+            {
+                tempoConsumo = value;
+            }
+        }
 
         public TipoEstadia Tipo { get; private set; }
 

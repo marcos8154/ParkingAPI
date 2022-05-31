@@ -16,21 +16,27 @@ namespace ParkingAPI.Commands.Manipuladores.Cobr
         {
             try
             {
+                cmd.Valida();
+                IFormaPagamentoRepository fpgRepos = ObterInstanciaRepos<IFormaPagamentoRepository>();
                 ICobrancaRepository cRepos = ObterInstanciaRepos<ICobrancaRepository>();
-                Cobranca cobr = cRepos
-                    .Where(c => c.CodigoCobranca.Equals(cmd.CodigoCobranca))
-                    .FirstOrDefault();
+                Cobranca cobranca = cRepos.ObterPorCodigo(cmd.CodigoCobranca);
 
-                if (cobr == null)
+                if (cobranca == null)
                     throw new Exception($"Cobrança não localizada pelo código '{cmd.CodigoCobranca}'");
 
-                if (cobr.Pago)
-                    throw new Exception($"Esta cobrança já foi paga no dia {cobr.DataPagamento.Value.ToString("dd/MM/yyyy HH:mm")}");
+                if (cmd.Pagamentos.Sum(p => p.Valor) != cobranca.Valor)
+                    throw new Exception($"O total informado dos pagamentos (R$ {cmd.Pagamentos.Sum(p => p.Valor):N2}) é diferente do valor da cobrança (R$ {cobranca.Valor:N2})");
 
-                cobr.DefinirPago();
-                cRepos.Update(cobr);
+                foreach (PagamentoInputModel pagVm in cmd.Pagamentos)
+                {
+                    FormaPagamento fpg = fpgRepos.Find(pagVm.FormaPagamentoId);
+                    if (fpg == null) throw new Exception($"Forma de pagamento não localizada pela Id '{pagVm.FormaPagamentoId}'");
+                    cobranca.AdicionaPagamento(fpg, pagVm.Valor);
+                }
 
-                CobrancaViewModel vm = new CobrancaViewModel(cobr);
+                cRepos.Update(cobranca);
+
+                CobrancaViewModel vm = new CobrancaViewModel(cobranca);
 
                 return new ResultadoAcao(
                     message: $"O pagamento da cobrança '{vm.CodigoCobranca}' foi registrado",

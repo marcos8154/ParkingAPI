@@ -26,6 +26,15 @@ namespace ParkingAPI.Commands.ViewModels
         public string Pago { get; set; }
         public string DataPagamento { get; set; }
         public decimal Valor { get; set; }
+        public List<PagamentoViewModel> Pagamentos { get; set; }
+
+        public string ValorStr
+        {
+            get
+            {
+                return $"R$ {Valor:N2}";
+            }
+        }
 
         public CobrancaViewModel(Cobranca cobranca)
         {
@@ -55,6 +64,9 @@ namespace ParkingAPI.Commands.ViewModels
             Estacionamento = $"{estacionamento.Nome} - {estacionamento.CNPJ}";
             Pago = cobranca.Pago ? "SIM" : "NÃO";
             DataPagamento = cobranca.Pago ? cobranca.DataPagamento.Value.ToString("dd/MM/yyyy HH:mm") : string.Empty;
+            Pagamentos = cobranca.Pagamentos
+                .Select(p => new PagamentoViewModel(p))
+                .ToList();
 
             string codigoFormatado = "";
 

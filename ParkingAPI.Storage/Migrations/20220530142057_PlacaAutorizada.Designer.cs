@@ -2,15 +2,17 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ParkingAPI.Storage.Impl;
 
 namespace ParkingAPI.Storage.Migrations
 {
     [DbContext(typeof(MySqlDatabase))]
-    partial class MySqlDatabaseModelSnapshot : ModelSnapshot
+    [Migration("20220530142057_PlacaAutorizada")]
+    partial class PlacaAutorizada
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -126,48 +128,6 @@ namespace ParkingAPI.Storage.Migrations
                     b.HasIndex("PlacaId");
 
                     b.ToTable("Estadias");
-                });
-
-            modelBuilder.Entity("ParkingAPI.Dominio.FormaPagamento", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<bool>("Inativo")
-                        .HasColumnType("tinyint(1)");
-
-                    b.Property<string>("Nome")
-                        .IsRequired()
-                        .HasColumnType("longtext");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("FormasPagamento");
-                });
-
-            modelBuilder.Entity("ParkingAPI.Dominio.PagamentoEstadia", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("char(36)");
-
-                    b.Property<Guid>("CobrancaId")
-                        .HasColumnType("char(50)");
-
-                    b.Property<Guid>("FormaPagamentoId")
-                        .HasColumnType("char(36)");
-
-                    b.Property<decimal>("ValorPagamento")
-                        .HasColumnType("decimal(65,30)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CobrancaId");
-
-                    b.HasIndex("FormaPagamentoId");
-
-                    b.ToTable("Pagamentos");
                 });
 
             modelBuilder.Entity("ParkingAPI.Dominio.Placa", b =>
@@ -309,25 +269,6 @@ namespace ParkingAPI.Storage.Migrations
                     b.Navigation("Placa");
                 });
 
-            modelBuilder.Entity("ParkingAPI.Dominio.PagamentoEstadia", b =>
-                {
-                    b.HasOne("ParkingAPI.Dominio.Cobranca", "Cobranca")
-                        .WithMany("Pagamentos")
-                        .HasForeignKey("CobrancaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ParkingAPI.Dominio.FormaPagamento", "FormaPagamento")
-                        .WithMany()
-                        .HasForeignKey("FormaPagamentoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Cobranca");
-
-                    b.Navigation("FormaPagamento");
-                });
-
             modelBuilder.Entity("ParkingAPI.Dominio.Placa", b =>
                 {
                     b.HasOne("ParkingAPI.Dominio.Proprietario", "Proprietario")
@@ -335,11 +276,6 @@ namespace ParkingAPI.Storage.Migrations
                         .HasForeignKey("ProprietarioId");
 
                     b.Navigation("Proprietario");
-                });
-
-            modelBuilder.Entity("ParkingAPI.Dominio.Cobranca", b =>
-                {
-                    b.Navigation("Pagamentos");
                 });
 
             modelBuilder.Entity("ParkingAPI.Dominio.Estacionamento", b =>

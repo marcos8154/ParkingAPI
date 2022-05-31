@@ -43,7 +43,7 @@ namespace ParkingAPI.Dominio
             if (string.IsNullOrEmpty(codigoPlaca))
                 throw new Exception("A placa do veículo é obrigátória");
 
-            Id = codigoPlaca;
+            Id = codigoPlaca.ToUpper();
             AtualizaInfo(descricaoVeiculo, prioritaria);
         }
 
@@ -61,7 +61,7 @@ namespace ParkingAPI.Dominio
 
         public Placa AtualizaInfo(string descricaoVeiculo, bool prioritaria)
         {
-            DescricaoVeiculo = descricaoVeiculo;
+            DescricaoVeiculo = string.IsNullOrEmpty(descricaoVeiculo) ? "Cadastrado automaticamente" : descricaoVeiculo.ToUpper();
             PlacaPrioritaria = prioritaria;
             return this;
         }

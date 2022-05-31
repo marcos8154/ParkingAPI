@@ -16,7 +16,10 @@ namespace ParkingAPI.Storage
         DbSet<Placa> Placas { get; set; }
         DbSet<Proprietario> Proprietarios { get; set; }
         DbSet<Cobranca> Cobrancas { get; set; }
+        DbSet<PagamentoEstadia> Pagamentos { get; set; }
         DbSet<Usuario> Usuarios { get; set; }
+        DbSet<FormaPagamento> FormasPagamento { get; set; }
+     
 
         void Commit();
 

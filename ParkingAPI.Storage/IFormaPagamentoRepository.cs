@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace ParkingAPI.Storage
 {
-    public interface ICobrancaRepository : IRepository<Cobranca>
+    public interface IFormaPagamentoRepository : IRepository<FormaPagamento>
     {
-        Cobranca ObterPorCodigo(string codigoCobranca);
     }
 }

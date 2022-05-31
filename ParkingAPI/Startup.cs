@@ -21,7 +21,6 @@ namespace ParkingAPI
 {
     public class Startup
     {
-        [DefaultValue(null)]
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
